@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Seed All Products — Q Crackers</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #f5f3ec;
+            font-family: 'Poppins', sans-serif;
+            padding: 40px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.5rem;
+            color: #f5f3ec;
+            text-align: center;
+        }
+
+        h1 span {
+            color: #ffc93c;
+        }
+
+        .seed-container {
+            background: #1a1a1a;
+            border-radius: 14px;
+            padding: 30px;
+            border: 1px solid rgba(255, 201, 60, 0.14);
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f7d774, #d4af37);
+            color: #1a1200;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-danger {
+            background: rgba(231, 76, 60, 0.15);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background: rgba(231, 76, 60, 0.25);
+        }
+
+        .btn-danger:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-success {
+            background: rgba(46, 204, 113, 0.15);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            color: #2ecc71;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .log-container {
+            background: #0a0a0a;
+            border-radius: 10px;
+            padding: 16px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #a8a49a;
+            border: 1px solid rgba(255, 201, 60, 0.08);
+            margin-top: 16px;
+        }
+
+        .log-container p {
+            margin: 2px 0;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .log-container p.success {
+            color: #2ecc71;
+        }
+
+        .log-container p.error {
+            color: #e74c3c;
+        }
+
+        .log-container p.warning {
+            color: #f1c40f;
+        }
+
+        .log-container p.info {
+            color: #3498db;
+        }
+
+        .stats {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            padding: 12px 0;
+            border-top: 1px solid rgba(255, 201, 60, 0.08);
+            margin-top: 16px;
+        }
+
+        .stats span {
+            color: #a8a49a;
+            font-size: 0.9rem;
+        }
+
+        .stats strong {
+            color: #ffc93c;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #131313;
+            border-radius: 999px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37, #f7d774);
+            border-radius: 999px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-bar .fill.success {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+        }
+
+        .progress-bar .fill.error {
+            background: linear-gradient(90deg, #c0392b, #e74c3c);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .status-badge.idle {
+            background: rgba(168, 164, 154, 0.15);
+            color: #a8a49a;
+        }
+
+        .status-badge.running {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+            animation: pulse 1s infinite;
+        }
+
+        .status-badge.done {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .status-badge.error {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .controls {
+                flex-direction: column;
+            }
+
+            .controls .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🌱 Q Crackers — <span>Seed All 225 Products</span></h1>
+    <p style="text-align:center; color: #a8a49a;">Add <strong>225 products</strong> to Firestore with <strong>CSV Order
+            Preserved</strong></p>
+
+    <div class="seed-container">
+        <div class="controls">
+            <button class="btn btn-primary" id="seedBtn" onclick="seedAllProducts()">🌱 Seed All 225 Products</button>
+            <button class="btn btn-danger" id="clearBtn"
+                onclick="if(confirm('Delete all products from Firestore?')) clearAllProducts()">🗑️ Clear All</button>
+            <button class="btn btn-success" onclick="refreshCount()">🔄 Refresh Count</button>
+        </div>
+
+        <div class="stats">
+            <span>📦 Products in Firebase: <strong id="totalCount">0</strong></span>
+            <span>✅ Seeded: <strong id="seededCount">0</strong></span>
+            <span>📊 Total: <strong id="totalProducts">225</strong></span>
+            <span>🔄 Status: <span id="statusBadge" class="status-badge idle">Idle</span></span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="fill" id="progressFill"></div>
+        </div>
+
+        <div id="log" class="log-container">
+            <p style="color:#a08d78;">[System] Ready to seed 225 products with individual images!</p>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js",
+                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js",
+                "firebase/storage": "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "firebase/app";
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, query, limit } from "firebase/firestore";
+        import { getStorage, ref, getDownloadURL } from "firebase/storage";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
+            authDomain: "qcrackers.firebaseapp.com",
+            projectId: "qcrackers",
+            storageBucket: "qcrackers.firebasestorage.app",
+            messagingSenderId: "491899224672",
+            appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // ============================================================
+        // IMAGE MAP - Product Name → Filename
+        // ============================================================
+        const productImageMap = {
+            // Sound Crackers
+            '4" LAKSHMI CRACKERS': '4" LAKSHMI CRACKERS.jpg',
+            '4" DELUXE LAKSHMI CRACKERS': '4-deluxe-lakshmi-cracker.jpg',
+            '4" SUPER DELUXE LAKSHMI / TIGER': '4-SUPER DELUXE LAKSHMI.jpg',
+            '4" MEGA DELUXE LAKSHMI': '4 MEGA DELUXE LAKSHMI.png',
+            '3 ½" LAKSHMI': '3-1-2_inch_lakshmi.png',
+            '2 ¾" KURUVI': '2 ¾-KURUVI.jpg',
+            'GOLD LAKSHMI': 'Gold Lakshmi.jfif',
+            '5" WARRIORS / LAKSHMI': 'Bahubali.png',
+            '6" ARABIAN ARCHER': 'ARABIAN ARCHER.jpg',
+            'SIVAJI / UNICORN (20 PLY)': 'UNICORN.png',
+
+            // Electric Crackers
+            '2 3/4" 24 DELUXE': '24 Deluxe.jpg',
+            '2 3/4" 50 DELUXE': '50 DELUXE.png',
+            '2 3/4" 100 DELUXE': '100 DELUXE.jfif',
+            '4" 50 MEGA DELUXE': '50 MEGA DELUXE.jfif',
+
+            // Bijili Crackers
+            'RED BIJILI': 'Red Bijili.jfif',
+            'STRIPPED BIJILI': 'Stripped Bijili.jfif',
+            'GOLD BIJILI': 'Gold Bijili.jfif',
+
+            // Flower Pots
+            'FLOWER POTS BIG': 'Flower Pots Big.jfif',
+            'FLOWER POTS SPECIAL': 'Flower Pots Special.jfif',
+            'FLOWER POTS ASHOKA': 'Flower Pots Ashoka.jpeg',
+            'FLOWER POTS ASHOKA (PANDYAN)': 'FLOWER POTS ASHOKA (PANDYAN).png',
+            'FLOWER POTS DELUXE (5 Pcs)': 'Flower Pots Deluxe.jfif',
+            'FLOWER POT COLOUR KOTI': 'Flower Colour Koti.jfif',
+            'COLOUR KOTI RED & GREEN': 'Flower Pot Colour Koti Red & Green.jfif',
+            'COLOUR PINJORE': 'COLOUR PINJORE.jpg',
+            'COLOUR KOTI DELUXE': 'Colour Koti Deluxe.jfif',
+            'TRI COLOUR FOUNTAIN': 'Tri Colour Fountain.jfif',
+
+            // Ground Chakkars
+            'GROUND CHAKKAR BIG': 'Ground Chakkar Big.jfif',
+            'GROUND CHAKKAR ASHOKA': 'Ground Chakkar Ashoka.jfif',
+            'GROUND CHAKKAR SPECIAL': 'Ground Chakkar Special.jfif',
+            'GROUND CHAKKAR DELUXE': 'GROUND CHAKKAR DELUXE.jfif',
+            'CHAKKAR SPECIAL - SPINNER (Anandas Brand)': 'CHAKKAR SPECIAL - SPINNER (Anandha Brand).jpg',
+            'CHAKKAR DELUXE - SPINNER (Ashok Brand)': 'CHAKKAR SPECIAL - SPINNER (ASHOKA Brand).jpg',
+            'WHISTLING DIXIE (5Pcs)': 'WHISTLING DIXIE.jpg',
+            '4 X 4 WHEEL / RING RING (5Pcs)': 'wheel-4-4.jpeg',
+
+            // Rainbow Chakkars
+            'RIO WHEEL / PINK WHEELS (5 Pcs)': 'RIO WHEEL.jpg',
+            'HOT WHEEL / Pearl Drops (5 IN 1 Tube) (5 Pcs)': 'HOT WHEEL.jpg',
+            'ZODIAC SPINNERS': 'ZODIAC SPINNERS.jpg',
+            'WIRE CHAKKARS': 'WIRE CHAKKARS.jpg',
+
+            // Childrens Special
+            '1 ½" TWINKLING STAR': 'TWINKLING STAR.jpg',
+            '4" TWINKLING STAR': '4-TWINKLING STAR.jpg',
+            '12" PENCIL': 'Candle Pencil - Baby Mix.jfif',
+            'CORONATION COLOUR CANDLE': 'CORONATION COLOUR CANDLE.jfif',
+            'ROMAN CANDLE RED & GREEN': 'ROMAN CANDLE RED & GREEN.jfif',
+            'CANDLE PENCIL- HI TECH': 'CANDLE PENCIL- HI TECH.jpg',
+            'CANDLE PENCIL-BABY MIX': 'CANDLE PENCIL-BABY MIX.jpg',
+            'CANDLE PENCIL- WONDERLA': 'CANDLE PENCIL- WONDERLA.jpg',
+            'LALA CANDLE / TRIX CANDLE': 'LALA CANDLE - TRIX CANDLE.jpg',
+
+            // Atom Bombs
+            'SUPER BULLET': 'SUPER BULLET.jpg',
+            'HYDRO BOMB GREEN': 'HYDRO BOMB GREEN.jpg',
+            'KING OF KING': 'KING OF KING.jfif',
+            'CLASSIC BOMB': 'CLASSIC BOMB.jpg',
+            'AGNI BOMB': 'AGNI BOMB.jpeg',
+            'DIGITAL BOMB': 'DIGITAL BOMB.jfif',
+            'SANDIYAR / ADIYAAL 1/4 kg': 'Sandiyar-Adiyaal.jfif',
+            'MEGA ADIYAAL 1/2 kg': 'MEGA ADIYAAL.jpg',
+            'MASTER ADIYAAL 1kg': 'MASTER ADIYAAL.jfif',
+            'COLOUR PAPER BOMB 1/4 kg': 'COLOUR PAPER BOMB.jpg',
+            'COLOUR PAPER BOMB 1/2 kg': 'COLOUR PAPER BOMB1.jpeg',
+
+            // Jaguvar Varities
+            '1K JAGUVAR': '1K JAGUVAR.jfif',
+            '2K JAGUVAR': '2K JAGUVAR.jfif',
+            '5K JAGUVAR': '5K JAGUVAR.jpg',
+            '10K JAGUVAR': '10K JAGUVAR.png',
+
+            // Rocket
+            'ROCKET BOMB': 'ROCKET BOMB.jpg',
+            'LUNIK ROCKET': 'LUNIK ROCKET.jfif',
+            '2 SOUND ROCKET': '2 SOUND ROCKET.jfif',
+            'MUSIC ROCKET': 'MUSIC ROCKET.jpg',
+            'PARACHUTE ROCKET': 'PARACHUTE ROCKET.jpg',
+            'PEACOCK FEATHER': 'PEACOCK FEATHER.jpg',
+            'POGO / JOLLY RANGER (5 Pcs)': 'POGO RANGER .jfif',
+            'ANGRY BIRD / LAVA (5 Pcs)': 'ANGRY BIRD.jpg',
+            'MINI SIREN (5 Pcs)': 'MINI SIREN.jpg',
+            'MUSIC SIREN (3 Pcs)': 'MUSIC SIREN.png',
+            'SUNFEAST / BOURBON RED (5 Pcs)': '',
+            'RED SUN / MISS BUTTERFLY (5 Pcs)': 'RED SUN.jfif',
+            'POWER POTS / FRUIT SALAT (5 Pcs)': 'POWER POTS.png',
+            'SHIN CHAN (3 Pcs)': 'SHIN CHAN.jpg',
+            'GOLD STAR MIX (3 Pcs)': 'GOLD STAR MIX.jfif',
+            'MOTLU PATLU FOUNTAIN (5 Pcs)': 'MOTLU PATLU FOUNTAIN.png',
+            'LITTLE POPS': 'LITTLE POPS.pmg',
+            'KINGS STAR / FANTY SHENNY (3Pcs)': 'KINGS STAR.jfif',
+            'CRACK JACK (2 FUNCTIONS)': '',
+            'DRONE (5Pcs)': 'DRONE.jfif',
+            'NESTLE (5 Pcs)': '',
+            'TWEET': 'TWEER.jfif',
+            'PAPPINS': 'PAPPINS.jfif',
+            '6000': '6000.jpg',
+            'PEACOCK 3 IN 1': 'PEACOCK.jpg',
+            'PEACOCK SPECIAL': 'PEACOCK SPECIAL.jpg',
+            'MAGIC SHOW CURRENCY': 'MAGIC SHOW CURRENCY.jfif',
+            'COLOUR SMOKE (3 Pcs) PLAIN': 'COLOUR SMOKE (3 Pcs) PLAIN.jfif',
+            'COLOUR SMOKE (3 Pcs) MULTI': 'COLOUR SMOKE (3 Pcs) MULTI.jfif',
+
+            // Chotta Fancy
+            '1" CHOTTA FANCY': 'CHOTTA FANCY.jpg',
+            'SKY WALA (5Pcs)': 'SKY WALA.jpg',
+            'WHITE HOUSE (5Pcs)': 'WHITE HOUSE .jfif',
+            'PENTAGON (5Pcs)': 'PENTAGON.jfif',
+            'BLACK & WHITE': 'BLACK & WHITE.jpg',
+
+            // New Wonders
+            'HELICOPTER': 'HELICOPTER.jpg',
+            'RAMPA DANCE / PAMBARAA': 'RAMPA DANCE',
+            'BUTTER CAFÉ (3 COLOUR CHANGING)': '',
+            'WATER QUEEN': 'WATER QUEEN.jpg',
+            'STAR DRUM': 'STAR DRUM.jpg',
+            'CHOC CONS': 'CHOC CONS.jpg',
+            'DRUM STICK': 'DRUM STICK.jpg',
+            'BLACK FOREST': 'BLACK FOREST.jpg',
+            'BADA PEACOCK (BRANDED)': 'BADA PEACOCK BRANDED.jpg',
+            'BADA PEACOCK (3 COLOUR CHANGING)': 'BADA PEACOCK (3 COLOUR CHANGING).jpg',
+            'KIDS BAT & BALL': 'KIDS BAT & BALL.jpg',
+
+            // New Attraction Fancy
+            'KNIGHT RIDERS 2" FANCY': 'KNIGHT RIDERS.png',
+            'MIX INDIA 2" FANCY': 'MIX INDIA.jfif',
+            'CENTER POINT 2 1/2" FANCY (3 VARITIES)': 'CENTER POINT.png',
+            'COLUMBUS CHIO 2 1/2" FANCY (3 VARITIES)': 'COLUMBUS CHIO.jpg',
+            'TWITTER 3" FANCY (3 VARITIES)': 'TWITTER.jpg',
+            'PYRO MAGIC 3" FANCY (3 VARITIES)': 'PYRO MAGIC.png',
+            'KASHMIR JILLY 3 ½" FANCY (6 VARITIES)': 'KASHMIR JILLY.jpg',
+            'JODI NO.1 (3 Pcs Box) BRANDED': 'JODI NO.jpg',
+            '3Pcs (OTHERS)': '3Pcs (OTHERS).jfif',
+            'REMO (3 Pcs Mega Box)': 'REMO.jfif',
+            'DIGITAL STAR 3 ½" FANCY': 'DIGITAL STAR.jfif',
+            'KING FISHER 3 ½" FANCY': 'KING FISHER.jfif',
+            'XXX SEVEN 3 ½" FANCY': 'Single Fancy.jfif',
+            'NAYAGARA FALLS 3 ½" FANCY': 'NAYAGARA FALLS.jfif',
+            '4" SAMSUNG FANCY (2 Pcs)': 'SAMSUNG FANCY.jpg',
+            '4" DOUBLE BALL FANCY': 'DOUBLE BALL FANCY.jpg',
+            '5 1/2" OCTOPUS FANCY': 'OCTOPUS FANCY.jfif',
+            'BLUE LAGOON': 'BLUE LAGOON.jfif',
+            'PINK DIAMONDS': 'PINK DIAMONDS.jpg',
+            'ORANGE VILLA': 'ORANGE VILLA.jpg',
+            'RED VELVET': 'RED VELVET.jpg',
+            'FLOWER POWER': 'FLOWER POWER.jpg',
+            'CLOWN TOWN': 'CLOWN TOWN.jpg',
+
+            // Multishots
+            '7 SHOT': '7 SHOT.jpeg',
+            '12 SHOTS - CRACKLING': '7 SHOT.jpg',
+            '12 SHOTS - CRACKLING WITH BALL': '12 SHOTS - CRACKLING WITH BALL.jfif',
+            '12 SHOTS- LAKA LAKA RIDER': '12 SHOTS- LAKA LAKA RIDER.jpg',
+            '12 SHOTS - RANG CHAKKAR': '12 SHOTS - RANG CHAKKAR.jfif',
+            '15 SHOTS MULTI COLOUR': '15 SHOTS MULTI COLOUR.jpg',
+            '30 SHOTS MULTI COLOUR (BRANDED)': '30 SHOTS MULTI COLOUR.jpg',
+            '30 SHOTS MULTI COLOUR (OTHERS)': '30 SHOTS MULTI COLOUR (OTHERS).jfif',
+            '60 SHOTS MULTI COLOUR': '60 SHOTS MULTI COLOUR.jpg',
+            '60 SHOTS MULTI COLOUR & CRACKLING': '60 SHOTS MULTI COLOUR & CRACKLING.jpg',
+            '120 SHOTS MULTI COLOUR': '120 SHOTS MULTI COLOUR.jpg',
+            '240 SHOTS MULTI COLOUR': '240 SHOTS MULTI COLOUR.jpg',
+            '520 SHOTS MULTI COLOUR': '520 SHOTS MULTI COLOUR.jpg',
+
+            // Novelties
+            'CHIT PUT': 'CHIT PUT.jpg',
+            'MOON WHEEL': 'MOON WHEEL.jfif',
+            'PHOTO FLASH': 'PHOTO FLASH.jpg',
+            'MONEY IN THE BANK': 'MONEY IN THE BANK.jpg',
+
+            // Setout
+            'CHEETAH BLAST - 15 SHOT': 'CHEETAH BLAST.jpg',
+            'BHARAT RATNA (2 1/2") (20 SHOT MC)': 'BHARAT RATNA.jpg',
+            'INDIAN ARMY (2 3/4") (30 SHOT MC)': 'Bharat Ratna.jfif',
+            'UNIVERCELL (2 1/2") (30 SHOT MC)': 'UNIVERCELL.jpg',
+            '10 X 10 100 SHOT': '100 SHOT.jpg',
+            '7 HORSE (3") (7 STAR)': '7 Horse.jfif',
+            'CHIKEN 65 (2 1/2") (65 SHOT 3 STAR)': '',
+            'BLACK THUNDER (3 1/2") (30 SHOT MC)': 'BLACK THUNDER.jfif',
+            'FIVE STAR (30 SHOT MS)': 'FIVE STAR.jpeg',
+
+            // Roll Caps & Serpant Eggs
+            'SERPENT SMALL': 'SERPENT.jpg',
+            'ELECTRIC STONE': 'ELECTRIC.jpg',
+            'ROLL CAP': 'ROLL CAP.jpg',
+            'A.K 47 RING GUN (5 RING CAP)': '',
+            'LEMON TREE': 'LEMON TREE.jpg',
+            'PINK PANTHER': 'PINK PANTHER.jpg',
+            'SMOKE STICK': 'SMOKE STICK.jpg',
+            'PURPLE DOVE': 'PURPLE DOVE.jpg',
+            'GULFI': 'GULFI.jpg',
+            'LION KING': 'LION KING.jpg',
+            'GO ! GO !! CAR': 'GO-GO.jpg',
+            'FIRE DROPS': 'FIRE.jpg',
+            'GUITAR': 'GUITAR.jpg',
+            'GAME OF THRONS (LONG SWORD)': 'GAME OF THRONS.jpg',
+            'THANOS THOR': 'THANOS THOR.jpg',
+            'TOYS FOUNTAINS': 'TOYS FOUNTAINS.pjg',
+            'RACING CARS': 'RACING CARS.png',
+            'JOLLY BOBBY': 'JOLLY BOBB.jpg',
+            'BAD BOYS TIN (3 Pcs)': 'BAD BOYS TIN.jpg',
+            'AAKASH THORAN': 'AAKASH THORAN.jpg',
+            'SKY DIVERS': 'SKY DIVER.jpg',
+            'FIRE EGG': 'FIRE.jpg',
+
+            // Sparklers
+            '7 CM ELECTRIC SPARKLERS': '7 CM ELECTRIC SPARKLERS.jfif',
+            '7 CM COLOUR SPARKLERS': '7 CM COLOUR SPARKLERS.jpg',
+            '7 CM GREEN SPARKLERS': '7 CM GREEN SPARKLERS.jpg',
+            '7 CM RED SPARKLERS': '7 CM RED SPARKLERS.jpg',
+            '10 CM ELECTRIC SPARKLERS': '10 CM ELECTRIC SPARKLERS.jpg',
+            '10 CM COLOUR SPARKLERS': '10 CM COLOUR SPARKLERS.jpg',
+            '10 CM GREEN SPARKLERS': '10 CM GREEN SPARKLERS.jpg',
+            '10 CM RED SPARKLERS': '10 CM RED SPARKLERS.jpg',
+            '12 CM ELECTRIC SPARKLERS': '12 CM ELECTRIC SPARKLERS.jpg',
+            '12 CM COLOUR SPARKLERS': '12 CM COLOUR SPARKLERS.jpg',
+            '12 CM GREEN SPARKLERS': '12 CM GREEN SPARKLERS.jpg',
+            '12 CM RED SPARKLERS': '12 CM RED SPARKLERS.jpg',
+            '15 CM ELECTRIC SPARKLERS': '15 CM ELECTRIC SPARKLERS.jpg',
+            '15 CM COLOUR SPARKLERS': '15 CM COLOUR SPARKLERS.jpg',
+            '15 CM GREEN SPARKLERS': '15 CM GREEN SPARKLERS.jpg',
+            '15 CM RED SPARKLERS': '15 CM RED SPARKLERS.jpg',
+            '15 CM NANOTECH': '15 CM NANOTECH.jpg',
+            '30 CM ELECTRIC SPARKLERS': '30 CM ELECTRIC SPARKLERS.jpg',
+            '30 CM COLOUR SPARKLERS': '30 CM COLOUR SPARKLERS.jpg',
+            '30 CM GREEN SPARKLERS': '30 CM GREEN SPARKLERS.jpg',
+            '30 CM RED SPARKLERS': '30 CM RED SPARKLERS.jpg',
+            '30 CM NANOTECH': '30 CM NANOTECH.jfif',
+            'LOVELY SPARKLERS': 'LOVELY SPARKLERS.jpg',
+            '50 CM ELECTRIC SPARKLERS': '50 CM ELECTRIC SPARKLERS.jpg',
+            '50 CM COLOUR SPARKLERS': '50 CM COLOUR SPARKLERS.jpg',
+            'COLOUR MATCHES GOLD VIP (LAPTOP)': 'COLOUR MATCHES GOLD VIP (LAPTOP).jpg',
+            'COLOUR MATCHES 5 STAR': 'COLOUR MATCHES 5 STAR.jpg',
+            'COLOUR MATCHES 10 IN 1 MINI LAPTOP': 'COLOUR MATCHES 10 IN 1 MINI LAPTOP.jpg',
+            'COLOUR MATCHES SUPER DLX': 'COLOUR MATCHES SUPER DLX.jpg',
+
+            // New Fancy Sparklers
+            '10 CM STAR PLUS': '10 CM STAR PLUS.jpg',
+            '10 CM GOLD WINNER': '10 CM GOLD WINNER.jpg',
+            '12 CM TWIN TONE': '12 CM TWIN TONE.png',
+            'SIGNAL PINK': 'SIGNAL PINK,jpg',
+            'SIGNAL BLUE': 'SIGNAL BLUE.jpg',
+            'ROTATING SPARKLERS': 'ROTATING SPARKLERS.png',
+
+            // Gift Boxes
+            '21 ITEMS GIFT BOX': '21 ITEMS GIFT BOX.jpeg',
+            '31 ITEMS GIFT BOX': '31 ITEMS GIFT BOX.jfif',
+            '41 ITEMS GIFT BOX': '41 ITEMS GIFT BOX.png',
+            '51 ITEMS GIFT BOX': '51 ITEMS GIFT BOX.jfif',
+
+            // Gift Boxes Family Package
+            '3000 FAMILY PACK': '3000.jpg',
+            '3500 KIDS EDITION PACK': '3000 FAMILY PACK.png',
+            '5000 FAMILY PACK': '5000.jpg',
+            '7000 FAMILY PACK': '7000.jpg',
+            '6000 THALA DIWALI PACK': '6000.jpg',
+            '10000 FAMILY PACK': '21 Items Gift Box.jfif'
+        };
+
+        // ============================================================
+        // COMPLETE 225 PRODUCTS (CSV Order Preserved)
+        // ============================================================
+        const allProducts = [
+
+            // =========================================================
+            // SINGLE SOUND CRACKERS — 1 to 9
+            // =========================================================
+
+            { name: '4” LAKSHMI CRACKERS', category: 'Single Sound Crackers', price: 22, oldPrice: 110, sub: '1 Pkt' },
+            { name: '4” DELUXE LAKSHMI CRACKERS', category: 'Single Sound Crackers', price: 26, oldPrice: 130, sub: '1 Pkt' },
+            { name: '4” SUPER DELUXE LAKSHMI / TIGER', category: 'Single Sound Crackers', price: 38, oldPrice: 190, sub: '1 Pkt' },
+            { name: '3 ½” LAKSHMI', category: 'Single Sound Crackers', price: 14, oldPrice: 70, sub: '1 Pkt' },
+            { name: '2 ¾” KURUVI', category: 'Single Sound Crackers', price: 8, oldPrice: 40, sub: '1 Pkt' },
+            { name: 'GOLD LAKSHMI', category: 'Single Sound Crackers', price: 41, oldPrice: 205, sub: '1 Pkt' },
+            { name: '5" WARRIORS / LAKSHMI', category: 'Single Sound Crackers', price: 46, oldPrice: 230, sub: '1 Pkt' },
+            { name: '6" ARABIAN ARCHER', category: 'Single Sound Crackers', price: 54, oldPrice: 270, sub: '1 Pkt' },
+            { name: 'SIVAJI / UNICORN (20 PLY)', category: 'Single Sound Crackers', price: 68, oldPrice: 340, sub: '1 Pkt' },
+
+
+            // =========================================================
+            // ELECTRIC CRACKERS — 10 to 13
+            // =========================================================
+
+            { name: '2 3/4" 24 DELUXE', category: 'Electric Crackers', price: 58, oldPrice: 290, sub: '1 Pkt' },
+            { name: '2 3/4" 50 DELUXE', category: 'Electric Crackers', price: 118, oldPrice: 590, sub: '1 Pkt' },
+            { name: '2 3/4" 100 DELUXE', category: 'Electric Crackers', price: 238, oldPrice: 1190, sub: '1 Pkt' },
+            { name: '4" 50 MEGA DELUXE', category: 'Electric Crackers', price: 171, oldPrice: 855, sub: '1 Pkt' },
+
+
+            // =========================================================
+            // BIJILLI CRACKERS — 14 to 16
+            // =========================================================
+
+            { name: 'RED BIJILI', category: 'Bijilli Crackers', price: 36, oldPrice: 180, sub: '1 Bag' },
+            { name: 'STRIPPED BIJILI', category: 'Bijilli Crackers', price: 36, oldPrice: 180, sub: '1 Bag' },
+            { name: 'GOLD BIJILI', category: 'Bijilli Crackers', price: 36, oldPrice: 180, sub: '1 Bag' },
+
+
+            // =========================================================
+            // FLOWERPOTS — 17 to 25
+            // =========================================================
+
+            { name: 'FLOWER POTS BIG', category: 'Flower Pots', price: 74, oldPrice: 370, sub: '1 Box' },
+            { name: 'FLOWER POTS SPECIAL', category: 'Flower Pots', price: 97, oldPrice: 485, sub: '1 Box' },
+            { name: 'FLOWER POTS ASHOKA', category: 'Flower Pots', price: 145, oldPrice: 725, sub: '1 Box' },
+            { name: 'FLOWER POTS DELUXE (5 Pcs)', category: 'Flower Pots', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'FLOWER POT COLOUR KOTI', category: 'Flower Pots', price: 205, oldPrice: 1025, sub: '1 Box' },
+            { name: 'COLOUR KOTI RED & GREEN', category: 'Flower Pots', price: 230, oldPrice: 1150, sub: '1 Box' },
+            { name: 'COLOUR PINJORE (10 Pcs)', category: 'Flower Pots', price: 230, oldPrice: 1150, sub: '1 Box' },
+            { name: 'COLOUR KOTI DELUXE (10 Pcs)', category: 'Flower Pots', price: 330, oldPrice: 1650, sub: '1 Box' },
+            { name: 'TRI COLOUR FOUNTAIN', category: 'Flower Pots', price: 275, oldPrice: 1375, sub: '1 Box' },
+
+
+            // =========================================================
+            // GROUND CHAKKAR — 26 to 33
+            // =========================================================
+
+            { name: 'GROUND CHAKKAR BIG', category: 'Ground Chakkar', price: 45, oldPrice: 225, sub: '1 Box' },
+            { name: 'GROUND CHAKKAR ASHOKA', category: 'Ground Chakkar', price: 59, oldPrice: 295, sub: '1 Box' },
+            { name: 'GROUND CHAKKAR SPECIAL', category: 'Ground Chakkar', price: 79, oldPrice: 395, sub: '1 Box' },
+            { name: 'GROUND CHAKKAR DELUXE', category: 'Ground Chakkar', price: 145, oldPrice: 725, sub: '1 Box' },
+            { name: 'CHAKKAR ASHOKA - SPINNER', category: 'Ground Chakkar', price: 145, oldPrice: 725, sub: '1 Box' },
+            { name: 'CHAKKAR DELUXE - SPINNER', category: 'Ground Chakkar', price: 225, oldPrice: 1125, sub: '1 Box' },
+            { name: 'WHISTLING DIXIE (5Pcs)', category: 'Ground Chakkar', price: 97, oldPrice: 485, sub: '1 Box' },
+            { name: '4 X 4 WHEEL / RING RING (5Pcs)', category: 'Ground Chakkar', price: 155, oldPrice: 775, sub: '1 Box' },
+
+
+            // =========================================================
+            // RAINBOW CHAKKAR — 34 to 36
+            // =========================================================
+
+            { name: 'PINK WHEEL / RIO ( 5 Pcs ) Ayyan', category: 'Rainbow Chakkar', price: 234, oldPrice: 1170, sub: '1 Box' },
+            { name: 'ZODIAC SPINNER (AYYAN) (3 IN 1 Tube) (5 Pcs)', category: 'Rainbow Chakkar', price: 215, oldPrice: 1075, sub: '1 Box' },
+            { name: 'WIRE CHAKKAR', category: 'Rainbow Chakkar', price: 210, oldPrice: 1050, sub: '1 Box' },
+
+
+            // =========================================================
+            // CHILDREN'S SPECIAL — 37 to 45
+            // =========================================================
+
+            { name: '1 ½” TWINKLING STAR', category: "Children's Special", price: 24, oldPrice: 120, sub: '1 Box' },
+            { name: '4” TWINKLING STAR', category: "Children's Special", price: 63, oldPrice: 315, sub: '1 Box' },
+            { name: '12” PENCIL', category: "Children's Special", price: 81, oldPrice: 405, sub: '1 Box' },
+            { name: 'CORONATION COLOUR CANDLE', category: "Children's Special", price: 84, oldPrice: 420, sub: '1 Box' },
+            { name: 'ROMAN CANDLE RED & GREEN', category: "Children's Special", price: 108, oldPrice: 540, sub: '1 Box' },
+            { name: 'CANDLE PENCIL- HI TECH', category: "Children's Special", price: 152, oldPrice: 760, sub: '1 Box' },
+            { name: 'CANDLE PENCIL-BABY MIX', category: "Children's Special", price: 152, oldPrice: 760, sub: '1 Box' },
+            { name: 'CANDLE PENCIL- WONDERLA', category: "Children's Special", price: 152, oldPrice: 760, sub: '1 Box' },
+            { name: 'LALA CANDLE / TRIX CANDLE', category: "Children's Special", price: 165, oldPrice: 825, sub: '1 Box' },
+
+
+            // =========================================================
+            // ATOM BOMBS — 46 to 54
+            // =========================================================
+
+            { name: 'SUPER BULLET', category: 'Atom Bombs', price: 33, oldPrice: 165, sub: '1 Box' },
+            { name: 'HYDRO BOMB GREEN', category: 'Atom Bombs', price: 64, oldPrice: 320, sub: '1 Box' },
+            { name: 'KING OF KING', category: 'Atom Bombs', price: 110, oldPrice: 550, sub: '1 Box' },
+            { name: 'CLASSIC BOMB', category: 'Atom Bombs', price: 130, oldPrice: 650, sub: '1 Box' },
+            { name: 'AGNI BOMB', category: 'Atom Bombs', price: 215, oldPrice: 1075, sub: '1 Box' },
+            { name: 'DIGITAL BOMB', category: 'Atom Bombs', price: 255, oldPrice: 1275, sub: '1 Box' },
+            { name: 'SANDIYAR / ADIYAAL 1/4 kg', category: 'Atom Bombs', price: 60, oldPrice: 300, sub: '1 Box' },
+            { name: 'MEGA ADIYAAL 1/2 kg', category: 'Atom Bombs', price: 120, oldPrice: 600, sub: '1 Box' },
+            { name: 'MASTER ADIYAAL 1kg', category: 'Atom Bombs', price: 220, oldPrice: 1100, sub: '1 Box' },
+
+
+            // =========================================================
+            // JAGUVAR VARITIES — 55 to 58
+            // =========================================================
+
+            { name: '1 K', category: 'Jaguvar Varities', price: 240, oldPrice: 1200, sub: '1 Box' },
+            { name: '2 K', category: 'Jaguvar Varities', price: 480, oldPrice: 2400, sub: '1 Box' },
+            { name: '5 K', category: 'Jaguvar Varities', price: 1200, oldPrice: 6000, sub: '1 Box' },
+            { name: '10 K', category: 'Jaguvar Varities', price: 2400, oldPrice: 12000, sub: '1 Box' },
+
+
+            // =========================================================
+            // ROCKETS — 59 to 62
+            // =========================================================
+
+            { name: 'ROCKET BOMB', category: 'Rockets', price: 72, oldPrice: 360, sub: '1 Box' },
+            { name: 'LUNIK ROCKET', category: 'Rockets', price: 135, oldPrice: 675, sub: '1 Box' },
+            { name: '2 SOUND ROCKET', category: 'Rockets', price: 135, oldPrice: 675, sub: '1 Box' },
+            { name: 'MUSIC ROCKET', category: 'Rockets', price: 215, oldPrice: 1075, sub: '1 Box' },
+
+
+            // =========================================================
+            // COLOUR FOUNTAINS — 63 to 73
+            // =========================================================
+
+            { name: 'PEACOCK FEATHER', category: 'Colour Fountains', price: 95, oldPrice: 475, sub: '1 Box' },
+            { name: 'POGO / JOLLY RANGER (5 Pcs)', category: 'Colour Fountains', price: 155, oldPrice: 775, sub: '1 Box' },
+            { name: 'ANGRY BIRD / LAVA (5 Pcs)', category: 'Colour Fountains', price: 255, oldPrice: 1275, sub: '1 Box' },
+            { name: 'MINI SIREN ( 5 Pcs )', category: 'Colour Fountains', price: 155, oldPrice: 775, sub: '1 Box' },
+            { name: 'MUSIC SIREN ( 3 Pcs )', category: 'Colour Fountains', price: 216, oldPrice: 1080, sub: '1 Box' },
+            { name: 'SUNFEAST / B0URBON RED ( 5 Pcs )', category: 'Colour Fountains', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'NANO POTS (AYYAN) ( 5 Pcs )', category: 'Colour Fountains', price: 190, oldPrice: 950, sub: '1 Box' },
+            { name: 'POWER POTS / FRUIT SALAT ( 5 Pcs)', category: 'Colour Fountains', price: 190, oldPrice: 950, sub: '1 Box' },
+            { name: 'SHIN CHAN ( 3 Pcs )', category: 'Colour Fountains', price: 125, oldPrice: 625, sub: '1 Box' },
+            { name: 'JIGGLES (4 Varieties) ( 3 Pcs )', category: 'Colour Fountains', price: 125, oldPrice: 625, sub: '1 Box' },
+            { name: 'MOTLU PATLU FOUNTAIN ( 5 Pcs)', category: 'Colour Fountains', price: 210, oldPrice: 1050, sub: '1 Box' },
+
+
+            // =========================================================
+            // NEW SPECIAL FOUNTAINS — 74 to 85
+            // =========================================================
+
+            { name: 'SILVER / GOLDEN DROPS', category: 'New Special Fountains', price: 75, oldPrice: 375, sub: '1 Box' },
+            { name: 'CRACKLING FOUNTAIN (3Pcs)', category: 'New Special Fountains', price: 288, oldPrice: 1440, sub: '1 Box' },
+            { name: 'CRACK JACK (2 FUNCTIONS)', category: 'New Special Fountains', price: 240, oldPrice: 1200, sub: '1 Box' },
+            { name: 'NESTLE (5 Pcs)', category: 'New Special Fountains', price: 225, oldPrice: 1125, sub: '1 Box' },
+            { name: 'TWEET', category: 'New Special Fountains', price: 145, oldPrice: 725, sub: '1 Box' },
+            { name: 'PAPPINS', category: 'New Special Fountains', price: 145, oldPrice: 725, sub: '1 Box' },
+            { name: '6000', category: 'New Special Fountains', price: 155, oldPrice: 775, sub: '1 Box' },
+            { name: 'PEACOCK 3 IN 1', category: 'New Special Fountains', price: 216, oldPrice: 1080, sub: '1 Box' },
+            { name: 'PEACOCK SPECIAL', category: 'New Special Fountains', price: 216, oldPrice: 1080, sub: '1 Box' },
+            { name: 'MAGIC SHOW CURRENCY', category: 'New Special Fountains', price: 240, oldPrice: 1200, sub: '1 Box' },
+            { name: 'COLOUR SMOKE ( 3 Pcs ) PLAIN', category: 'New Special Fountains', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'COLOUR SMOKE ( 3 Pcs ) MULTI', category: 'New Special Fountains', price: 185, oldPrice: 925, sub: '1 Box' },
+
+
+            // =========================================================
+            // NEW WONDERS — 86 to 95
+            // =========================================================
+
+            { name: 'HELICOPTER', category: 'New Wonders', price: 110, oldPrice: 550, sub: '1 Box' },
+            { name: 'RAMPA DANCE / PAMBARAA', category: 'New Wonders', price: 120, oldPrice: 600, sub: '1 Box' },
+            { name: 'BUTTER CAFÉ (3 COLOUR CHANGING)', category: 'New Wonders', price: 105, oldPrice: 525, sub: '1 Box' },
+            { name: 'STAR DRUM', category: 'New Wonders', price: 98, oldPrice: 490, sub: '1 Box' },
+            { name: 'CHOC CONS', category: 'New Wonders', price: 198, oldPrice: 990, sub: '1 Box' },
+            { name: 'DRUM STICK', category: 'New Wonders', price: 198, oldPrice: 990, sub: '1 Box' },
+            { name: 'BLACK FOREST', category: 'New Wonders', price: 198, oldPrice: 990, sub: '1 Box' },
+            { name: 'BADA PEACOCK (BRANDED)', category: 'New Wonders', price: 445, oldPrice: 2225, sub: '1 Box' },
+            { name: 'BADA PEACOCK (3 COLOUR CHANGING)', category: 'New Wonders', price: 465, oldPrice: 2325, sub: '1 Box' },
+            { name: 'KIDS BAT & BALL', category: 'New Wonders', price: 240, oldPrice: 1200, sub: '1 Box' },
+
+
+            // =========================================================
+            // CHOTTA FANCY — 96 to 109
+            // =========================================================
+
+            { name: '1 " CHOTTA FANCY', category: 'Chotta Fancy', price: 45, oldPrice: 225, sub: '1 Box' },
+            { name: 'SKY WALA / SKY DANCER (5Pcs)', category: 'Chotta Fancy', price: 135, oldPrice: 675, sub: '1 Box' },
+            { name: 'PENTA SHOT (5 Pcs)', category: 'Chotta Fancy', price: 180, oldPrice: 900, sub: '1 Box' },
+            { name: 'WHITE HOUSE (5Pcs)', category: 'Chotta Fancy', price: 210, oldPrice: 1050, sub: '1 Box' },
+            { name: 'PENTAGON (5Pcs)', category: 'Chotta Fancy', price: 210, oldPrice: 1050, sub: '1 Box' },
+            { name: 'BLUE MOON', category: 'Chotta Fancy', price: 175, oldPrice: 875, sub: '1 Box' },
+            { name: 'GOLD COIN', category: 'Chotta Fancy', price: 175, oldPrice: 875, sub: '1 Box' },
+            { name: 'SINGING DOLL', category: 'Chotta Fancy', price: 320, oldPrice: 1600, sub: '1 Box' },
+            { name: 'BLUE BLOOM', category: 'Chotta Fancy', price: 295, oldPrice: 1475, sub: '1 Box' },
+            { name: 'BLUE BIRD', category: 'Chotta Fancy', price: 295, oldPrice: 1475, sub: '1 Box' },
+            { name: 'AYYAN PINK', category: 'Chotta Fancy', price: 285, oldPrice: 1425, sub: '1 Box' },
+            { name: 'VIOLET FLOWER', category: 'Chotta Fancy', price: 285, oldPrice: 1425, sub: '1 Box' },
+            { name: 'AAKASH THORAN', category: 'Chotta Fancy', price: 310, oldPrice: 1550, sub: '1 Box' },
+            { name: 'RED ANGEL', category: 'Chotta Fancy', price: 190, oldPrice: 950, sub: '1 Box' },
+
+
+            // =========================================================
+            // NIGHT ATTRACTION FANCY — 110 to 126
+            // =========================================================
+
+            { name: 'KNIGHT RIDERS 2” FANCY', category: 'Night Attraction Fancy', price: 105, oldPrice: 525, sub: '1 Box' },
+            { name: 'MIX INDIA 2” FANCY', category: 'Night Attraction Fancy', price: 105, oldPrice: 525, sub: '1 Box' },
+            { name: 'CENTER POINT 2 1/2” FANCY (3 VARITIES)', category: 'Night Attraction Fancy', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'COLUMBUS CHIO 2 1/2” FANCY (3 VARITIES)', category: 'Night Attraction Fancy', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'TWITTER 3” FANCY (3 VARITIES)', category: 'Night Attraction Fancy', price: 248, oldPrice: 1240, sub: '1 Box' },
+            { name: 'PYRO MAGIC 3” FANCY (3 VARITIES)', category: 'Night Attraction Fancy', price: 248, oldPrice: 1240, sub: '1 Box' },
+            { name: 'KASHMIR JILLY 3 ½” FANCY (6 VARITIES)', category: 'Night Attraction Fancy', price: 262, oldPrice: 1310, sub: '1 Box' },
+            { name: 'JODI NO.1 ( 3 Pcs Box ) BRANDED', category: 'Night Attraction Fancy', price: 285, oldPrice: 1425, sub: '1 Box' },
+            { name: '2 INCH 3PCS (OTHERS)', category: 'Night Attraction Fancy', price: 245, oldPrice: 1225, sub: '1 Box' },
+            { name: 'REMO (3 Pcs Mega Box)', category: 'Night Attraction Fancy', price: 492, oldPrice: 2460, sub: '1 Box' },
+            { name: 'DIGITAL STAR 3 ½” FANCY', category: 'Night Attraction Fancy', price: 320, oldPrice: 1600, sub: '1 Box' },
+            { name: 'KING FISHER 3 ½” FANCY', category: 'Night Attraction Fancy', price: 320, oldPrice: 1600, sub: '1 Box' },
+            { name: 'XXX SEVEN 3 ½” FANCY', category: 'Night Attraction Fancy', price: 320, oldPrice: 1600, sub: '1 Box' },
+            { name: 'NAYAGARA FALLS 3 ½” FANCY', category: 'Night Attraction Fancy', price: 320, oldPrice: 1600, sub: '1 Box' },
+            { name: '4” SAMSUNG FANCY ( 2 Pcs )', category: 'Night Attraction Fancy', price: 740, oldPrice: 3700, sub: '1 Box' },
+            { name: '4” DOUBLE BALL FANCY', category: 'Night Attraction Fancy', price: 475, oldPrice: 2375, sub: '1 Box' },
+            { name: '6” IMPERIAL BLUE / BOOMER FANCY', category: 'Night Attraction Fancy', price: 1440, oldPrice: 7200, sub: '1 Box' },
+
+
+            // =========================================================
+            // 2026 NEW ELITE FANCY — 127 to 132
+            // =========================================================
+
+            { name: 'WOW LEMON', category: '2026 New Elite Fancy', price: 540, oldPrice: 2700, sub: '1 Box' },
+            { name: 'WOW PINK', category: '2026 New Elite Fancy', price: 540, oldPrice: 2700, sub: '1 Box' },
+            { name: 'WOW ORANGE', category: '2026 New Elite Fancy', price: 540, oldPrice: 2700, sub: '1 Box' },
+            { name: 'WOW PURPLE', category: '2026 New Elite Fancy', price: 540, oldPrice: 2700, sub: '1 Box' },
+            { name: 'FLOWER POWER (Blue with Red Eye)', category: '2026 New Elite Fancy', price: 640, oldPrice: 3200, sub: '1 Box' },
+            { name: 'CLOWN TOWN (Blue with Orange Eye)', category: '2026 New Elite Fancy', price: 640, oldPrice: 3200, sub: '1 Box' },
+
+
+            // =========================================================
+            // MULTISHOTS — 133 to 142
+            // =========================================================
+
+            { name: '12 SHOTS', category: 'Multishots', price: 160, oldPrice: 800, sub: '1 Box' },
+            { name: '12 SHOTS - CRACKLING WITH BALL', category: 'Multishots', price: 180, oldPrice: 900, sub: '1 Box' },
+            { name: '12 SHOTS- LAKA LAKA RIDER', category: 'Multishots', price: 215, oldPrice: 1075, sub: '1 Box' },
+            { name: '15 SHOTS MULTI COLOUR', category: 'Multishots', price: 275, oldPrice: 1375, sub: '1 Box' },
+            { name: '30 SHOTS MULTI COLOUR (BRANDED)', category: 'Multishots', price: 455, oldPrice: 2275, sub: '1 Box' },
+            { name: '60 SHOTS MULTI COLOUR', category: 'Multishots', price: 910, oldPrice: 4550, sub: '1 Box' },
+            { name: '60 SHOTS MULTI COLOUR & CRACKLING', category: 'Multishots', price: 1120, oldPrice: 5600, sub: '1 Box' },
+            { name: '120 SHOTS MULTI COLOUR', category: 'Multishots', price: 1820, oldPrice: 9100, sub: '1 Box' },
+            { name: '240 SHOTS MULTI COLOUR', category: 'Multishots', price: 3640, oldPrice: 18200, sub: '1 Box' },
+            { name: '520 SHOTS MULTI COLOUR', category: 'Multishots', price: 7800, oldPrice: 39000, sub: '1 Box' },
+
+
+            // =========================================================
+            // NOVELTIES — 143 to 146
+            // =========================================================
+
+            { name: 'CHIT PUT', category: 'Novelties', price: 32, oldPrice: 160, sub: '1 Box' },
+            { name: 'MOON WHEEL', category: 'Novelties', price: 75, oldPrice: 375, sub: '1 Box' },
+            { name: 'PHOTO FLASH', category: 'Novelties', price: 75, oldPrice: 375, sub: '1 Box' },
+            { name: 'MONEY IN THE BANK', category: 'Novelties', price: 30, oldPrice: 150, sub: '1 Box' },
+
+
+            // =========================================================
+            // FESTIVAL SERIES / SET OUT — 147 to 153
+            // =========================================================
+
+            { name: 'CHITTA BLAST - 15 SHOT', category: 'Festival Series', price: 1400, oldPrice: 7000, sub: '1 Box' },
+            { name: 'BHARAT RATNA (2 1/2") (20 SHOT MC)', category: 'Festival Series', price: 2950, oldPrice: 14750, sub: '1 Box' },
+            { name: 'INDIAN ARMY (2 3/4") (30 SHOT MC)', category: 'Festival Series', price: 3800, oldPrice: 19000, sub: '1 Box' },
+            { name: 'UNIVERCELL (2 1/2") (30 SHOT MC)', category: 'Festival Series', price: 3960, oldPrice: 19800, sub: '1 Box' },
+            { name: '10 X 10 100 SHOT', category: 'Festival Series', price: 3960, oldPrice: 19800, sub: '1 Box' },
+            { name: 'BLACK THUNDER (3 1/2") (30 SHOT MC)', category: 'Festival Series', price: 5940, oldPrice: 29700, sub: '1 Box' },
+            { name: 'FIVE STAR (30 SHOT MC)', category: 'Festival Series', price: 8415, oldPrice: 42075, sub: '1 Box' },
+
+
+            // =========================================================
+            // ROLL CAPS & SERPANT EGGS — 154 to 157
+            // =========================================================
+
+            { name: 'SERPENT EGG', category: 'Roll Caps & Serpant Eggs', price: 24, oldPrice: 120, sub: '1 Box' },
+            { name: 'ELECTRIC STONE', category: 'Roll Caps & Serpant Eggs', price: 20, oldPrice: 100, sub: '1 Box' },
+            { name: 'ROLL CAP', category: 'Roll Caps & Serpant Eggs', price: 60, oldPrice: 300, sub: '1 Box' },
+            { name: 'A.K 47 RING GUN (5 RING CAP )', category: 'Roll Caps & Serpant Eggs', price: 150, oldPrice: 750, sub: '1 Box' },
+
+
+            // =========================================================
+            // 2026 NEW VARIETIES — 158 to 166
+            // =========================================================
+
+            { name: 'LEMON TREE', category: '2026 New Varieties', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'SMOKE STICK', category: '2026 New Varieties', price: 90, oldPrice: 450, sub: '1 Box' },
+            { name: 'PURPLE DOVE / LITTLE DOVE', category: '2026 New Varieties', price: 75, oldPrice: 375, sub: '1 Box' },
+            { name: 'GULFI', category: '2026 New Varieties', price: 75, oldPrice: 375, sub: '1 Box' },
+            { name: 'MAGICAL / GALAXY SWORD (2Pcs)', category: '2026 New Varieties', price: 450, oldPrice: 2250, sub: '1 Box' },
+            { name: 'THANOS THOR', category: '2026 New Varieties', price: 240, oldPrice: 1200, sub: '1 Box' },
+            { name: 'JOLLY BOBBY', category: '2026 New Varieties', price: 580, oldPrice: 2900, sub: '1 Box' },
+            { name: 'BAD BOYS TIN ( 3 Pcs )', category: '2026 New Varieties', price: 370, oldPrice: 1850, sub: '1 Box' },
+            { name: 'FIRE EGG', category: '2026 New Varieties', price: 160, oldPrice: 800, sub: '1 Box' },
+
+
+            // =========================================================
+            // SPARKLERS — 167 to 187
+            // =========================================================
+
+            { name: '10 CM ELECTRIC SPARKLERS', category: 'Sparklers', price: 18, oldPrice: 90, sub: '1 Box' },
+            { name: '10 CM COLOUR SPARKLERS', category: 'Sparklers', price: 20, oldPrice: 100, sub: '1 Box' },
+            { name: '10 CM GREEN SPARKLERS', category: 'Sparklers', price: 22, oldPrice: 110, sub: '1 Box' },
+            { name: '10 CM RED SPARKLERS', category: 'Sparklers', price: 24, oldPrice: 120, sub: '1 Box' },
+            { name: '10 CM NANOTECH (Smoke Free)', category: 'Sparklers', price: 20, oldPrice: 100, sub: '1 Box' },
+
+            { name: '15 CM ELCTRIC SPARKLERS', category: 'Sparklers', price: 42, oldPrice: 210, sub: '1 Box' },
+            { name: '15 CM COLOUR SPARKLERS', category: 'Sparklers', price: 46, oldPrice: 230, sub: '1 Box' },
+            { name: '15 CM GREEN SPARKLERS', category: 'Sparklers', price: 49, oldPrice: 245, sub: '1 Box' },
+            { name: '15 CM RED SPARKLERS', category: 'Sparklers', price: 54, oldPrice: 270, sub: '1 Box' },
+            { name: '15 CM NANOTECH (Smoke Free)', category: 'Sparklers', price: 52, oldPrice: 260, sub: '1 Box' },
+
+            { name: '30 CM ELCTRIC SPARKLERS', category: 'Sparklers', price: 42, oldPrice: 210, sub: '1 Box' },
+            { name: '30 CM COLOUR SPARKLERS', category: 'Sparklers', price: 46, oldPrice: 230, sub: '1 Box' },
+            { name: '30 CM GREEN SPARKLERS', category: 'Sparklers', price: 49, oldPrice: 245, sub: '1 Box' },
+            { name: '30 CM RED SPARKLERS', category: 'Sparklers', price: 54, oldPrice: 270, sub: '1 Box' },
+            { name: '30 CM NANOTECH (Smoke Free)', category: 'Sparklers', price: 52, oldPrice: 260, sub: '1 Box' },
+
+            { name: 'LOVELY SPARKLERS', category: 'Sparklers', price: 135, oldPrice: 675, sub: '1 Box' },
+            { name: '50 CM ELECTRIC SPARKLERS', category: 'Sparklers', price: 190, oldPrice: 950, sub: '1 Box' },
+            { name: '50 CM COLOUR SPARKLERS', category: 'Sparklers', price: 210, oldPrice: 1050, sub: '1 Box' },
+            { name: 'COLOUR MATCHES GOLD VIP (LAPTOP)', category: 'Sparklers', price: 210, oldPrice: 1050, sub: '1 Box' },
+            { name: 'COLOUR MATCHES 5 STAR', category: 'Sparklers', price: 145, oldPrice: 725, sub: '1 Box' },
+            { name: 'COLOUR MATCHES 10 IN 1 (MINI LAPTOP)', category: 'Sparklers', price: 160, oldPrice: 800, sub: '1 Box' },
+
+
+            // =========================================================
+            // NEW VARIETIES SPARKLERS — 188 to 192
+            // =========================================================
+
+            { name: '10 CM STAR PLUS', category: 'New Varieties Sparklers', price: 39, oldPrice: 195, sub: '1 Box' },
+            { name: '10 CM GOLD WINNER', category: 'New Varieties Sparklers', price: 39, oldPrice: 195, sub: '1 Box' },
+            { name: 'SIGNAL PINK', category: 'New Varieties Sparklers', price: 41, oldPrice: 205, sub: '1 Box' },
+            { name: 'SIGNAL BLUE', category: 'New Varieties Sparklers', price: 41, oldPrice: 205, sub: '1 Box' },
+            { name: 'ROTATING SPARKLERS', category: 'New Varieties Sparklers', price: 225, oldPrice: 1125, sub: '1 Box' },
+
+
+            // =========================================================
+            // GIFT BOXES — 193 to 195
+            // =========================================================
+
+            { name: '30 items Gi Box', category: 'Gift Boxes', price: 560, oldPrice: 2800, sub: '1 Box' },
+            { name: '40 items Gi Box', category: 'Gift Boxes', price: 720, oldPrice: 3600, sub: '1 Box' },
+            { name: '50 items Gi Box', category: 'Gift Boxes', price: 970, oldPrice: 4850, sub: '1 Box' },
+
+
+            // =========================================================
+            // FAMILY PACKAGE — 196 to 200
+            // =========================================================
+
+            { name: 'BUDGET FAMILY PACK', category: 'Family Package', price: 2999, oldPrice: null, sub: '1 Box' },
+            { name: 'KIDS EDITION PACK', category: 'Family Package', price: 3999, oldPrice: null, sub: '1 Box' },
+            { name: 'MEGA FAMILY PACK', category: 'Family Package', price: 4999, oldPrice: null, sub: '1 Box' },
+            { name: 'THALA DIWALI PACK', category: 'Family Package', price: 7499, oldPrice: null, sub: '1 Box' },
+            { name: 'VIP PACK', category: 'Family Package', price: 10000, oldPrice: null, sub: '1 Box' }
+
+        ];
+
+        console.log(`📦 Total Products: ${allProducts.length}`);
+
+        // ============================================================
+        // GET IMAGE URL
+        // ============================================================
+        async function getImageUrl(filename) {
+            if (!filename) return null;
+            try {
+                const storageRef = ref(storage, `products/${filename}`); const url = await getDownloadURL(storageRef);
+                return url;
+            } catch (error) {
+                console.warn(`⚠️ Failed to get URL for ${filename}:`, error.message);
+                return null;
+            }
+        }
+
+        // ============================================================
+        // UPDATE TOTAL COUNT
+        // ============================================================
+        window.refreshCount = async function () {
+            try {
+                const productsRef = collection(db, 'products');
+                const snapshot = await getDocs(productsRef);
+                const count = snapshot.size;
+                document.getElementById('totalCount').textContent = count;
+                return count;
+            } catch (error) {
+                console.error('Failed to get product count:', error);
+                return 0;
+            }
+        };
+
+        // ============================================================
+        // CLEAR ALL PRODUCTS
+        // ============================================================
+        window.clearAllProducts = async function () {
+            const log = document.getElementById('log');
+            const clearBtn = document.getElementById('clearBtn');
+            const seedBtn = document.getElementById('seedBtn');
+
+            function addLog(msg, type = '') {
+                const p = document.createElement('p');
+                const time = new Date().toLocaleTimeString();
+                p.textContent = `[${time}] ${msg}`;
+                if (type) p.className = type;
+                log.appendChild(p);
+                log.scrollTop = log.scrollHeight;
+                console.log(msg);
+            }
+
+            clearBtn.disabled = true;
+            seedBtn.disabled = true;
+            clearBtn.textContent = '🗑️ Deleting...';
+
+            const statusBadge = document.getElementById('statusBadge');
+            statusBadge.textContent = 'Deleting...';
+            statusBadge.className = 'status-badge running';
+
+            try {
+                const productsRef = collection(db, 'products');
+                const snapshot = await getDocs(productsRef);
+
+                if (snapshot.empty) {
+                    addLog('✅ No products to delete', 'warning');
+                    await window.refreshCount();
+                    statusBadge.textContent = 'Empty';
+                    statusBadge.className = 'status-badge idle';
+                    return;
+                }
+
+                addLog(`🗑️ Found ${snapshot.size} products to delete`);
+
+                let deleted = 0;
+                const total = snapshot.size;
+
+                for (const doc of snapshot.docs) {
+                    await deleteDoc(doc.ref);
+                    deleted++;
+                    if (deleted % 10 === 0 || deleted === total) {
+                        addLog(`🗑️ Deleted ${deleted}/${total} products`);
+                    }
+                }
+
+                await window.refreshCount();
+                document.getElementById('seededCount').textContent = '0';
+                document.getElementById('progressFill').style.width = '0%';
+                document.getElementById('progressFill').className = 'fill';
+
+                addLog(`✅ Successfully deleted ${deleted} products`, 'success');
+                statusBadge.textContent = 'Cleared';
+                statusBadge.className = 'status-badge done';
+
+            } catch (error) {
+                addLog(`❌ Error clearing products: ${error.message}`, 'error');
+                console.error('Clear error:', error);
+                statusBadge.textContent = 'Error';
+                statusBadge.className = 'status-badge error';
+            } finally {
+                clearBtn.disabled = false;
+                seedBtn.disabled = false;
+                clearBtn.textContent = '🗑️ Clear All';
+            }
+        };
+
+        // ============================================================
+        // SEED FUNCTION
+        // ============================================================
+        window.seedAllProducts = async function () {
+            const log = document.getElementById('log');
+            const seedBtn = document.getElementById('seedBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const progressFill = document.getElementById('progressFill');
+            const seededCount = document.getElementById('seededCount');
+            const statusBadge = document.getElementById('statusBadge');
+
+            function addLog(msg, type = '') {
+                const p = document.createElement('p');
+                const time = new Date().toLocaleTimeString();
+                p.textContent = `[${time}] ${msg}`;
+                if (type) p.className = type;
+                log.appendChild(p);
+                log.scrollTop = log.scrollHeight;
+                console.log(msg);
+            }
+
+            log.innerHTML = '';
+            seedBtn.disabled = true;
+            clearBtn.disabled = true;
+            seedBtn.textContent = '⏳ Seeding 225 products...';
+            statusBadge.textContent = 'Running...';
+            statusBadge.className = 'status-badge running';
+            progressFill.style.width = '0%';
+            progressFill.className = 'fill';
+            seededCount.textContent = '0';
+
+            let seeded = 0;
+            let failed = 0;
+
+            try {
+                addLog('🔥 Starting complete product seeding...');
+                addLog(`📦 Total products to seed: ${allProducts.length}`);
+
+                // Get image URLs
+                addLog('📸 Fetching unique image URLs from Firebase Storage...');
+                const imageCache = {};
+                const uniqueFiles = [...new Set(Object.values(productImageMap).filter(f => f))];
+                let loadedImages = 0;
+
+                for (const filename of uniqueFiles) {
+                    const url = await getImageUrl(filename);
+                    if (url) {
+                        imageCache[filename] = url;
+                        loadedImages++;
+                        if (loadedImages % 10 === 0 || loadedImages === uniqueFiles.length) {
+                            addLog(`📸 Loaded ${loadedImages}/${uniqueFiles.length} images`, 'info');
+                        }
+                    } else {
+                        imageCache[filename] = null;
+                        addLog(`⚠️ Could not load: ${filename}`, 'warning');
+                    }
+                }
+
+                addLog(`📸 Loaded ${loadedImages}/${uniqueFiles.length} images successfully`, 'success');
+
+                // Seed all products
+                addLog('🌱 Starting to seed products...');
+                const total = allProducts.length;
+
+                for (let i = 0; i < total; i++) {
+                    const product = allProducts[i];
+                    const filename = productImageMap[product.name] || null;
+                    const imageUrl = filename ? imageCache[filename] || null : null;
+
+                    const productData = {
+                        name: product.name,
+                        category: product.category,
+                        price: product.price,
+                        oldPrice: product.oldPrice,
+                        sub: product.sub,
+                        imageUrl: imageUrl,
+                        imageFilename: filename || null,
+                        createdAt: new Date().toISOString(),
+                        orderIndex: i + 1
+                    };
+
+                    try {
+                        await addDoc(collection(db, 'products'), productData);
+                        seeded++;
+
+                        // Update progress
+                        const progress = ((i + 1) / total) * 100;
+                        progressFill.style.width = `${progress}%`;
+                        seededCount.textContent = seeded;
+
+                        if (i % 10 === 0 || i === total - 1) {
+                            addLog(`✅ Seeded ${seeded}/${total} products (${Math.round(progress)}%)`, 'success');
+                        }
+                    } catch (error) {
+                        failed++;
+                        addLog(`❌ Failed to seed "${product.name}": ${error.message}`, 'error');
+                        console.error(`Failed to seed product ${i + 1}:`, error);
+                    }
+                }
+
+                // Update final stats
+                const finalCount = await window.refreshCount();
+
+                addLog(`✅ Seeding complete! ${seeded} seeded, ${failed} failed. Total in DB: ${finalCount}`, 'success');
+
+                // Update UI
+                seedBtn.textContent = '✅ Seeding Complete!';
+                seedBtn.style.background = '#2ecc71';
+                seedBtn.style.color = '#fff';
+                progressFill.className = 'fill success';
+                statusBadge.textContent = 'Done ✅';
+                statusBadge.className = 'status-badge done';
+
+                // Show summary
+                addLog(`📊 Summary:`, 'info');
+                addLog(`  - Products seeded: ${seeded}`, 'success');
+                addLog(`  - Products failed: ${failed}`, failed > 0 ? 'error' : 'success');
+                addLog(`  - Images loaded: ${loadedImages}/${uniqueFiles.length}`, loadedImages === uniqueFiles.length ? 'success' : 'warning');
+
+            } catch (error) {
+                addLog(`💥 Fatal error: ${error.message}`, 'error');
+                console.error('Seeding error:', error);
+                seedBtn.textContent = '❌ Seeding Failed';
+                seedBtn.style.background = '#e74c3c';
+                seedBtn.style.color = '#fff';
+                progressFill.className = 'fill error';
+                statusBadge.textContent = 'Error ❌';
+                statusBadge.className = 'status-badge error';
+            } finally {
+                seedBtn.disabled = false;
+                clearBtn.disabled = false;
+
+                // Reset button after 10 seconds
+                setTimeout(() => {
+                    if (seedBtn.textContent.includes('Complete') || seedBtn.textContent.includes('Failed')) {
+                        seedBtn.textContent = '🌱 Seed All 225 Products';
+                        seedBtn.style.background = '';
+                        seedBtn.style.color = '';
+                        progressFill.className = 'fill';
+                        if (statusBadge.textContent.includes('Done') || statusBadge.textContent.includes('Error')) {
+                            statusBadge.textContent = 'Idle';
+                            statusBadge.className = 'status-badge idle';
+                        }
+                    }
+                }, 10000);
+            }
+        };
+
+        // ============================================================
+        // INITIALIZATION
+        // ============================================================
+        // Load product count on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            await window.refreshCount();
+        });
+
+        // Make functions available globally
+        window.seedAllProducts = window.seedAllProducts;
+        window.clearAllProducts = window.clearAllProducts;
+        window.refreshCount = window.refreshCount;
+
+        console.log('🌱 Q Crackers Seed Tool Ready');
+        console.log(`📦 Total products defined: ${allProducts.length}`);
+        console.log(`🖼️ Unique images: ${Object.keys(productImageMap).length}`);
+    </script>
+
+</body>
+
+</html>

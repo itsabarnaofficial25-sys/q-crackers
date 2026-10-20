@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q Crackers — Premium Sivakasi Fireworks Online</title>
+    <meta name="description"
+        content="Q Crackers — order premium Sivakasi fireworks online. Track your order, browse our full catalogue, and celebrate bigger.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css">
+    <!-- FAVICON / TAB LOGO -->
+    <link rel="icon" type="image/png" href="./images/logo-removebg-preview.png">
+    <style>
+        /* Force badge to always show */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--ember);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex !important;
+            /* ← Force display */
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-white);
+        }
+
+        /* When cart is empty, show 0 with faded style */
+        .cart-badge.empty {
+            background: #999;
+            font-size: 0.55rem;
+        }
+
+        /* ===== STATS SECTION - REDESIGN + COUNT-UP ===== */
+        .strip-stats .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 30px 18px;
+            text-align: center;
+            border: 1px solid rgba(230, 0, 0, 0.08);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.07);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-icon {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--card);
+            background: var(--yellow);
+            box-shadow: 0 8px 18px rgba(230, 0, 0, 0.25);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 6px;
+        }
+
+        .stat-card span {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted, #666);
+        }
+
+        @media (max-width: 768px) {
+            .strip-stats .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 420px) {
+            .stat-card {
+                padding: 22px 12px;
+            }
+        }
+
+        /* ===== SOCIAL FLOAT - MOBILE FIX ===== */
+        @media (max-width: 768px) {
+            .social-float {
+                display: flex !important;
+                flex-direction: column;
+                position: fixed;
+                left: 12px;
+                bottom: 80px;
+                top: auto;
+                transform: none;
+                z-index: 9999;
+                gap: 8px;
+            }
+
+            .social-float a {
+                width: 46px;
+                height: 46px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .social-float {
+                left: 10px;
+                bottom: 75px;
+            }
+
+            .social-float a {
+                width: 42px;
+                height: 42px;
+            }
+        }
+
+        /* IMAGE ZOOM MODAL */
+        .cat-img {
+            cursor: zoom-in;
+        }
+
+        .zoom-modal {
+            display: none;
+            position: fixed;
+            z-index: 99999;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            text-align: center;
+        }
+
+        .zoom-modal.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zoom-img-wrap {
+            overflow: hidden;
+            max-width: 90vw;
+            max-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zoom-img-wrap img {
+            max-width: 90vw;
+            max-height: 75vh;
+            transition: transform 0.25s ease;
+            cursor: grab;
+            transform: scale(1);
+        }
+
+        .zoom-close {
+            position: absolute;
+            top: 18px;
+            right: 28px;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .zoom-controls {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .zoom-controls button {
+            background: #fff;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .zoom-caption {
+            color: #fff;
+            margin-top: 14px;
+            font-weight: 600;
+        }
+
+        /* ADD TO CART BUTTON */
+        .add-to-cart-btn {
+            background-color: var(--yellow);
+            color: var(--card);
+            border: none;
+            border-radius: 999px;
+            padding: 11px 24px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 16px rgba(255, 212, 0, 0.35);
+            transition: all 0.25s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+            background-color: var(--card);
+            color: var(--yellow);
+            box-shadow: 0 10px 24px rgba(230, 0, 0, 0.4);
+        }
+
+        .add-to-cart-btn.added {
+            background-color: #ad0101 !important;
+            color: #ffffff !important;
+        }
+
+        /* OFFER BADGE ON IMAGE */
+        .category-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: 12px;
+            left: -32px;
+            background: linear-gradient(135deg, #e60000, #ff0000);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 5px 40px;
+            transform: rotate(-45deg);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            z-index: 5;
+            text-transform: uppercase;
+        }
+
+        .offer-badge::before,
+        .offer-badge::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            border-style: solid;
+        }
+
+        .offer-badge::before {
+            left: 0;
+            border-width: 4px 4px 0 0;
+            border-color: #8B0000 transparent transparent transparent;
+        }
+
+        .offer-badge::after {
+            right: 0;
+            border-width: 4px 0 0 4px;
+            border-color: #8B0000 transparent transparent transparent;
+        }
+
+        @media (max-width: 480px) {
+            .offer-badge {
+                font-size: 0.6rem;
+                padding: 4px 32px;
+                top: 8px;
+                left: -28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="offer-scroll">
+            🎉 <strong>WELCOME TO Q CRACKERS</strong> —
+            <strong>80% OFFER</strong> ON Q CRACKERS —
+            🔥 PREMIUM SIVAKASI FIREWORKS —
+            DELIVERED ACROSS TAMIL NADU 🎉
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="nav-top">
+            <a href="index.html" class="logo"> <img src="images/logo-removebg-preview.png" alt="Q Crackers Logo"
+                    class="logo-img"> </a>
+            <div class="nav-top-right">
+                <a href="tel:+919655586461" class="nav-top-phone"><i class="fas fa-phone"></i> +91 96555 86461</a>
+                <!-- ===== CART BUTTON WITH BADGE ===== -->
+                <button class="header-cart" id="open-cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="header-cart-total">₹0</span>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </button>
+            </div>
+        </div>
+        <div class="nav-bottom">
+            <!-- ===== ALL CATEGORIES DROPDOWN ===== -->
+            <div class="all-categories">
+                <button class="all-categories-btn" id="all-cat-btn">
+                    <span>All Categories</span> <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="all-categories-menu" id="all-cat-menu">
+                    <a href="#cat-Sound-Crackers">Sound Crackers</a>
+                    <a href="#cat-Flower-Pots">Flower Pots</a>
+                    <a href="#cat-Ground-Chakkars">Ground Chakkars</a>
+                    <a href="#cat-Atom-Bombs">Atom Bombs</a>
+                    <a href="#cat-Rocket">Rocket</a>
+                    <a href="#cat-Multishots">Multishots</a>
+                </div>
+            </div>
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="#" id="priceListBtn" class="btn btn-primary">
+                    Download Price List
+                </a>
+
+                <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- TOP BANNER CAROUSEL -->
+    <section class="hero-carousel" id="hero-carousel">
+        <div class="carousel-track" id="carousel-track">
+
+            <!-- Slide 1 -->
+            <div class="carousel-slide slide-1">
+                <img class="slide-img" src="images/c2.png" alt="Q Crackers Sivakasi Fireworks"
+                    onerror="this.style.display='none'">
+                <div class="slide-content">
+                    <span class="eyebrow">✨ Welcome to Q Crackers</span>
+                    <h2><span class="accent">Quality Fireworks</span> Direct
+                        from Sivakasi</h2>
+                    <p>Celebrate every festival with premium-quality
+                        fireworks at unbeatable prices.</p>
+                    <a href="products.html" class="btn btn-primary"> Shop
+                        Now</a>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-slide slide-2">
+                <img class="slide-img" src="images/c3.png" alt="Quality Crackers" onerror="this.style.display='none'">
+                <div class="slide-content">
+                    <span class="eyebrow">⭐ Q for Quality</span>
+                    <h2>Premium Crackers with <span class="accent">Trusted
+                            Quality</span></h2>
+                    <p>Manufactured in Sivakasi using high-quality materials
+                        for a safer celebration.</p>
+                    <a href="products.html" class="btn btn-primary">Explore
+                        Collection</a>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-slide slide-3">
+                <img class="slide-img" src="images/c4.png" alt="Quantity Orders" onerror="this.style.display='none'">
+                <div class="slide-content">
+                    <span class="eyebrow">📦 Q for Quantity</span>
+                    <h2>Wholesale & Retail <span class="accent">Bulk
+                            Orders</span></h2>
+                    <p>Perfect for families, events, dealers, schools, and
+                        corporate celebrations.</p>
+                    <a href="products.html" class="btn btn-primary">View
+                        Products</a>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="carousel-slide slide-4">
+                <img class="slide-img" src="images/c5.png" alt="Quick Delivery" onerror="this.style.display='none'">
+                <div class="slide-content">
+                    <span class="eyebrow">🚚 Q for Quick Delivery</span>
+                    <h2>Fast & Secure <span class="accent">Doorstep
+                            Delivery</span></h2>
+                    <p>Order online and get your favorite Sivakasi crackers
+                        delivered quickly and safely.</p>
+                    <a href="products.html" class="btn btn-primary">Order
+                        Today</a>
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="carousel-slide slide-5">
+                <img class="slide-img" src="images/c1.png" alt="Festival Fireworks" onerror="this.style.display='none'">
+                <div class="slide-content">
+                    <span class="eyebrow">🎇 Celebrate with
+                        Confidence</span>
+                    <h2>Your Trusted <span class="accent">Sivakasi Fireworks
+                            Partner</span></h2>
+                    <p>Quality • Quantity • Quick Delivery — Everything you
+                        need for a brighter celebration.</p>
+                    <a href="products.html" class="btn btn-primary">Start
+                        Shopping</a>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="carousel-arrow prev" id="carousel-prev" aria-label="Previous slide">‹</button>
+        <button class="carousel-arrow next" id="carousel-next" aria-label="Next slide">›</button>
+
+        <div class="carousel-dots" id="carousel-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+            <span class="dot" data-slide="3"></span>
+            <span class="dot" data-slide="4"></span>
+        </div>
+    </section>
+
+    <!-- INTRO: IMAGE RIGHT / CONTENT LEFT -->
+    <section class="section">
+        <div class="container content-flex content-flex-reverse">
+            <!-- CONTENT - Left Side -->
+            <div class="reveal">
+                <h2>
+                    <span class="accent">Q Crackers</span> – Quality,
+                    Quantity &amp; Quick Delivery
+                </h2>
+
+                <p class="lede">
+                    At <strong>Q Crackers</strong>, we believe every
+                    celebration deserves the best.
+                    We bring you premium-quality Sivakasi fireworks directly
+                    from trusted manufacturers,
+                    offer a wide range of products for every budget, and
+                    ensure fast, reliable doorstep
+                    delivery so your festive moments are always bright and
+                    memorable.
+                </p>
+
+                <div class="icon-features">
+
+                    <!-- Q for Quality -->
+                    <div class="icon-feature">
+                        <div class="ic">
+                            <i class="fas fa-award" style="color: var(--text);"></i>
+                        </div>
+                        <div>
+                            <strong>Q for Quality</strong>
+                            <p>
+                                Premium Sivakasi fireworks crafted with
+                                exceptional quality and trusted safety
+                                standards.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Q for Quantity -->
+                    <div class="icon-feature">
+                        <div class="ic">
+                            <i class="fas fa-boxes-stacked" style="color: var(--text);"></i>
+                        </div>
+                        <div>
+                            <strong>Q for Quantity</strong>
+                            <p>
+                                A complete range of fireworks for families,
+                                retailers, wholesalers, and celebrations.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Q for Quick Delivery -->
+                    <div class="icon-feature">
+                        <div class="ic">
+                            <i class="fas fa-truck-fast" style="color: var(--text);"></i>
+                        </div>
+                        <div>
+                            <strong>Q for Quick Delivery</strong>
+                            <p>
+                                Reliable, secure, and fast doorstep delivery
+                                for a hassle-free shopping experience.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Trusted Brand -->
+                    <div class="icon-feature">
+                        <div class="ic">
+                            <i class="fas fa-handshake" style="color: var(--text);"></i>
+                        </div>
+                        <div>
+                            <strong>Trusted by Thousands</strong>
+                            <p>
+                                Factory-direct pricing, premium products,
+                                and dedicated customer support from
+                                Sivakasi.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="hero-cta">
+                    <a href="products.html" class="btn btn-primary">Shop
+                        Now</a>
+                    <a href="#pricelist" class="btn btn-ghost">Download
+                        Price List</a>
+                </div>
+
+                <div class="hero-phone">
+                    Customer Support :
+                    <strong>+91 96555 86461</strong>
+                </div>
+
+            </div>
+
+            <!-- IMAGE BOX - Right Side -->
+            <div class="img-box reveal">
+                <img src="images/q-crackers.png" alt="Q Crackers Sivakasi Fireworks">
+            </div>
+        </div>
+    </section>
+
+    <!-- STRIP -->
+    <div class="strip">
+        <div class="container strip-flex">
+
+            <!-- Rocket Image -->
+            <div class="strip-image reveal">
+                <img src="images/rocket-removebg-preview.png" alt="Rocket Cracker" class="flowerpot-real">
+            </div>
+
+            <!-- Stats -->
+            <div class="strip-stats">
+                <div class="grid-4">
+
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-boxes-stacked"></i></div>
+                        <b class="stat-number" data-target="250" data-suffix="+">0</b>
+                        <span>Products in Catalogue</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <b class="stat-number" data-target="12000" data-suffix="+">0</b>
+                        <span>Happy Customers</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-shield-halved"></i></div>
+                        <b class="stat-number" data-target="100" data-suffix="%">0</b>
+                        <span>Tested for Safety</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-truck-fast"></i></div>
+                        <b class="stat-number" data-target="24" data-suffix="hr">0</b>
+                        <span>Order Dispatch</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- IMAGE ZOOM MODAL -->
+    <div class="zoom-modal" id="zoomModal">
+        <span class="zoom-close" id="zoomClose"><i class="fas fa-times"></i></span>
+        <div class="zoom-controls">
+            <button id="zoomOutBtn"><i class="fas fa-search-minus"></i></button>
+            <button id="zoomResetBtn"><i class="fas fa-compress"></i></button>
+            <button id="zoomInBtn"><i class="fas fa-search-plus"></i></button>
+        </div>
+        <div class="zoom-img-wrap">
+            <img id="zoomImg" src alt>
+        </div>
+        <p class="zoom-caption" id="zoomCaption"></p>
+    </div>
+
+    <!-- CATEGORIES -->
+    <section class="section categories-section">
+        <div class="container">
+
+            <div class="section-head reveal">
+                <span class="eyebrow">Shop by category</span>
+
+                <h2>
+                    Find your <span class="accent">celebration</span>
+                </h2>
+
+                <p>
+                    From quiet family evenings to full-blown Diwali finales
+                    —
+                    pick the mood.
+                </p>
+            </div>
+
+            <div class="categories-grid">
+
+                <!-- Category 1 - Thala Diwali Pack -->
+                <div class="category-card reveal">
+                    <div class="category-image"><span class="offer-badge">80% OFF</span>
+                        <img src="images/c1.jpeg" alt="Thala Diwali Pack" class="cat-img"
+                            onclick="openZoom(this.src, 'Thala Diwali Pack')">
+                    </div>
+                    <div class="category-content">
+                        <h3>Thala Diwali Pack</h3>
+                        <div class="category-price">₹ 7,499</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="Thala Diwali Pack"
+                            data-price="7499">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category 2 - Kids Combo Pack -->
+                <div class="category-card reveal">
+                    <div class="category-image"><span class="offer-badge">80% OFF</span>
+                        <img src="images/c2.jpeg" alt="Kids Combo Pack" class="cat-img"
+                            onclick="openZoom(this.src, 'Kids Combo Pack')">
+                    </div>
+                    <div class="category-content">
+                        <h3>Kids Combo Pack</h3>
+                        <div class="category-price">₹ 3,999</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="Kids Combo Pack" data-price="3999">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category 3 -  -->
+                <div class="category-card reveal">
+                    <div class="category-image"><span class="offer-badge">80% OFF</span>
+                        <img src="images/c3.jpeg" alt="Family Pack" class="cat-img"
+                            onclick="openZoom(this.src, 'Family Pack')">
+                    </div>
+                    <div class="category-content">
+                        <h3>Family Pack</h3>
+                        <div class="category-price">₹ 2,999</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="Family Pack" data-price="2999">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category 4 - Family Pack -->
+                <div class="category-card reveal">
+                    <div class="category-image"><span class="offer-badge">80% OFF</span>
+                        <img src="images/c4.jpeg" alt="Combo Family Pack" class="cat-img"
+                            onclick="openZoom(this.src, 'Combo Family Pack')">
+                    </div>
+                    <div class="category-content">
+                        <h3>Combo Family Pack</h3>
+                        <div class="category-price">₹ 4,999</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="combo Family Pack"
+                            data-price="4999">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- OFFER BANNER -->
+    <section class="offer-banner">
+        <div class="container reveal">
+            <div class="offer-banner-content">
+                <h2>Festival <span class="accent">Mega Sale</span></h2>
+                <p>Factory-direct pricing on our full Sivakasi catalogue.
+                    <br>Offer valid while festival stock lasts.
+                </p>
+                <div class="offer-features">
+                    <span><i class="fas fa-check-circle"></i> Premium
+                        Quality</span>
+                    <span><i class="fas fa-check-circle"></i> Fast
+                        Delivery</span>
+                    <span><i class="fas fa-check-circle"></i> Best
+                        Prices</span>
+                </div>
+                <a href="products.html" class="btn btn-primary">
+                    <i class="fas fa-shopping-cart"></i> Shop the Offer
+                </a>
+                <div class="offer-timer">
+                    <span><i class="fas fa-clock"></i> Hurry! Offer ends
+                        soon</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED PRODUCTS - INNOVATIVE DESIGN -->
+    <section class="section">
+        <div class="container">
+            <div class="section-head reveal">
+                <span class="eyebrow">Smart Selection</span>
+                <h2>How to <span class="accent">choose</span> your
+                    crackers</h2>
+                <p>Expert tips to pick the perfect fireworks for every
+                    occasion</p>
+            </div>
+
+            <!-- Do's & Don'ts Grid -->
+            <div class="guide-grid">
+                <!-- DO's Column -->
+                <div class="guide-column do-column reveal">
+                    <div class="guide-header">
+                        <span class="guide-icon"><i class="fas fa-check-circle"></i></span>
+                        <h3>What to Do</h3>
+                        <p>Choose the right crackers for your
+                            celebration</p>
+                    </div>
+
+                    <!-- Do Item 1 -->
+                    <div class="guide-card do-card">
+                        <div class="guide-card-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <div class="guide-card-content">
+                            <h4>Choose Sparklers for Kids</h4>
+                            <p>Safe, colorful sparklers are perfect for
+                                children's celebrations and family
+                                gatherings
+                            </p>
+                            <span class="guide-tag">Recommended:
+                                Sparklers</span>
+                        </div>
+                    </div>
+
+                    <!-- Do Item 2 -->
+                    <div class="guide-card do-card">
+                        <div class="guide-card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="guide-card-content">
+                            <h4>Pick Aerial Shots for Crowds</h4>
+                            <p>Multi-shot cakes create spectacular sky
+                                displays that everyone can enjoy</p>
+                            <span class="guide-tag">Recommended: Aerial
+                                Shots</span>
+                        </div>
+                    </div>
+
+                    <!-- Do Item 3 -->
+                    <div class="guide-card do-card">
+                        <div class="guide-card-icon">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <div class="guide-card-content">
+                            <h4>Select Gift Boxes for Gifting</h4>
+                            <p>Curated combo boxes offer variety and make
+                                perfect festive gifts</p>
+                            <span class="guide-tag">Recommended: Gift
+                                Boxes</span>
+                        </div>
+                    </div>
+
+                    <!-- Do Item 4 -->
+                    <div class="guide-card do-card">
+                        <div class="guide-card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="guide-card-content">
+                            <h4>Always Check Safety Standards</h4>
+                            <p>Only buy from trusted manufacturers with
+                                quality certification</p>
+                            <span class="guide-tag">Recommended: Premium
+                                Brands</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DON'Ts Column -->
+                <div class="guide-column dont-column reveal">
+                    <div class="guide-header">
+                        <span class="guide-icon"><i class="fas fa-times-circle"></i></span>
+                        <h3>What to Avoid</h3>
+                        <p>Common mistakes to avoid for a safe
+                            celebration</p>
+                    </div>
+
+                    <!-- Don't Item 1 -->
+                    <div class="guide-card dont-card">
+                        <div class="guide-card-icon">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <div class="guide-card-content">
+                            <h4>Avoid Overcrowded Spaces</h4>
+                            <p>Never burst crackers in confined areas or
+                                near buildings</p>
+                            <span class="guide-tag warning">Warning: Keep
+                                Open Space</span>
+                        </div>
+                    </div>
+
+                    <!-- Don't Item 2 -->
+                    <div class="guide-card dont-card">
+                        <div class="guide-card-icon">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <div class="guide-card-content">
+                            <h4>Don't Give to Young Children</h4>
+                            <p>Sound crackers and rockets should only be
+                                handled by adults</p>
+                            <span class="guide-tag warning">Warning: Adult
+                                Supervision</span>
+                        </div>
+                    </div>
+
+                    <!-- Don't Item 3 -->
+                    <div class="guide-card dont-card">
+                        <div class="guide-card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="guide-card-content">
+                            <h4>Don't Store Near Heat Sources</h4>
+                            <p>Keep crackers in a cool, dry place away from
+                                fire and electricity</p>
+                            <span class="guide-tag warning">Warning: Proper
+                                Storage</span>
+                        </div>
+                    </div>
+
+                    <!-- Don't Item 4 -->
+                    <div class="guide-card dont-card">
+                        <div class="guide-card-icon">
+                            <i class="fas fa-hand"></i>
+                        </div>
+                        <div class="guide-card-content">
+                            <h4>Never Hold Crackers in Hand</h4>
+                            <p>Always use proper stands and launchers for
+                                aerial fireworks</p>
+                            <span class="guide-tag warning">Warning: Use
+                                Proper Gear</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View All Products Button -->
+            <div style="text-align:center; margin-top:50px;">
+                <a href="products.html" class="btn btn-primary">Explore All
+                    Crackers →</a>
+                <p style="color:var(--text-muted); font-size:0.85rem; margin-top:12px;">
+                    <i class="fas fa-shield-alt" style="color:var(--yellow);"></i>
+                    100% safe & quality-tested products from Sivakasi
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS - CAROUSEL -->
+    <section class="section testimonials-section">
+        <div class="container">
+            <div class="section-head reveal">
+                <span class="eyebrow">Word on the street</span>
+                <h2>What our <span class="accent">customers</span> say</h2>
+                <p>Real reviews from our happy customers across Tamil
+                    Nadu</p>
+            </div>
+
+            <!-- Testimonial Carousel -->
+            <div class="testimonial-carousel">
+                <div class="testimonial-track" id="testimonialTrack">
+
+                    <!-- Review 1 - Sivakasi -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Sivakasi
+                            </div>
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"Being from Sivakasi, I know
+                                quality crackers. Q Crackers delivers the
+                                best
+                                factory-fresh fireworks right to my
+                                doorstep. The aerial shots are
+                                spectacular!"</p>
+                            <div class="who">
+                                <div class="avatar" style="background: linear-gradient(135deg, #d4a847, #b8922f);">M
+                                </div>
+                                <div>
+                                    <strong>Murali K</strong>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 - Aruppukottai -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Aruppukottai
+                            </div>
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"The ground chakkars from Q
+                                Crackers are the best I've ever bought. My
+                                whole family in Aruppukottai enjoyed them
+                                during Diwali. Fast delivery too!"</p>
+                            <div class="who">
+                                <div class="avatar" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">P
+                                </div>
+                                <div>
+                                    <strong>Priya S</strong>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 - Virudhunagar -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Virudhunagar
+                            </div>
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"As a retailer in Virudhunagar,
+                                I've been sourcing crackers from Q Crackers
+                                for 3 years. Their wholesale prices are
+                                unbeatable and quality is consistent."</p>
+                            <div class="who">
+                                <div class="avatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">R
+                                </div>
+                                <div>
+                                    <strong>Raja S</strong>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    September 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 4 - Rajapalayam -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Rajapalayam
+                            </div>
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"The gift boxes from Q Crackers
+                                are perfect for our family celebrations in
+                                Rajapalayam. Everyone loved the variety -
+                                sparklers, chakkars, and rockets!"</p>
+                            <div class="who">
+                                <div class="avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">V
+                                </div>
+                                <div>
+                                    <strong>Vignesh R</strong>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 5 - Madurai -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Madurai
+                            </div>
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"Ordered from Madurai and
+                                received the crackers within 24 hours! The
+                                sound
+                                crackers were amazing - perfect for our
+                                Meenakshi Temple festival celebrations."</p>
+                            <div class="who">
+                                <div class="avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">A
+                                </div>
+                                <div>
+                                    <strong>Arul M</strong>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    September 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 6 - Kovilpatti -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Kovilpatti
+                            </div>
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"The flower pots from Q
+                                Crackers are stunning! I used them for my
+                                daughter's engagement in Kovilpatti and
+                                everyone was impressed by the colourful
+                                fountain
+                                display."</p>
+                            <div class="who">
+                                <div class="avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">K
+                                </div>
+                                <div>
+                                    <strong>Kavitha L</strong>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 7 - Dindigul -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Dindigul
+                            </div>
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"Being a wholesale buyer from
+                                Dindigul, I trust Q Crackers for bulk
+                                orders.
+                                Their rockets are in high demand during
+                                every festival season."</p>
+                            <div class="who">
+                                <div class="avatar" style="background: linear-gradient(135deg, #1abc9c, #16a085);">S
+                                </div>
+                                <div>
+                                    <strong>Senthil P</strong>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    August 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 8 - Tuticorin -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Tuticorin
+                            </div>
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"The party crackers combo was a
+                                huge hit at our beach celebration in
+                                Tuticorin. Fast delivery and amazing quality
+                                - highly recommended!"</p>
+                            <div class="who">
+                                <div class="avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">M
+                                </div>
+                                <div>
+                                    <strong>Meena R</strong>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    September 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 9 - Theni -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-location">
+                                <i class="fas fa-map-marker-alt"></i> Theni
+                            </div>
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"The quality of crackers from Q
+                                Crackers is unmatched. As a regular
+                                customer from Theni, I always recommend them
+                                to my friends and family."</p>
+                            <div class="who">
+                                <div class="avatar" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">G
+                                </div>
+                                <div>
+                                    <strong>Ganesh N</strong>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 10 - Ramanathapuram -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Ramanathapuram
+                            </div>
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"The aerial shots and rockets
+                                from Q Crackers lit up our village festival
+                                in Ramanathapuram. Thank you for making our
+                                celebration memorable!"</p>
+                            <div class="who">
+                                <div class="avatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">D
+                                </div>
+                                <div>
+                                    <strong>Devi P</strong>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Carousel Controls -->
+                <button class="testimonial-arrow prev" id="testPrev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="testimonial-arrow next" id="testNext">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <!-- Dots -->
+                <div class="testimonial-dots" id="testDots"></div>
+            </div>
+
+            <!-- View All Reviews -->
+            <div style="text-align:center; margin-top:40px;">
+                <a href="#reviews" class="btn btn-ghost" id="openReviewsModalBtn">
+                    <i class="fas fa-comments"></i> Read All Reviews
+                </a>
+            </div>
+
+            <!-- READ ALL REVIEWS MODAL -->
+            <div class="reviews-modal" id="reviewsModal">
+                <div class="reviews-modal-content">
+                    <div class="reviews-modal-header">
+                        <h2><i class="fas fa-comments" style="color:var(--yellow);"></i> All
+                            Customer Reviews</h2>
+                        <button class="reviews-modal-close" id="reviewsModalClose">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="reviews-modal-body">
+
+                        <!-- Review 1 - Sivakasi -->
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar"
+                                    style="background: linear-gradient(135deg, #d4a847, #b8922f);">M</div>
+                                <div class="review-info">
+                                    <strong>
+                                        Murali K</strong>
+                                    <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
+                                        Sivakasi</span>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">"Being from Sivakasi, I
+                                know quality crackers. Q Crackers delivers
+                                the best factory-fresh fireworks right to my
+                                doorstep. The aerial shots are
+                                spectacular!"</p>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 2 - Aruppukottai -->
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar"
+                                    style="background: linear-gradient(135deg, #2ecc71, #27ae60);">P</div>
+                                <div class="review-info">
+                                    <strong>Priya S</strong>
+                                    <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
+                                        Aruppukottai</span>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">"The ground chakkars from
+                                Q Crackers are the best I've ever bought.
+                                My whole family in Aruppukottai enjoyed them
+                                during Diwali. Fast delivery too!"</p>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 3 - Virudhunagar -->
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar"
+                                    style="background: linear-gradient(135deg, #3498db, #2980b9);">R</div>
+                                <div class="review-info">
+                                    <strong>Raja S</strong>
+                                    <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
+                                        Virudhunagar</span>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">"As a retailer in
+                                Virudhunagar, I've been sourcing crackers
+                                from Q
+                                Crackers for 3 years. Their wholesale prices
+                                are unbeatable and quality is consistent."
+                            </p>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    September 2025</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 4 - Rajapalayam -->
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar"
+                                    style="background: linear-gradient(135deg, #e74c3c, #c0392b);">V</div>
+                                <div class="review-info">
+                                    <strong>Vignesh R</strong>
+                                    <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
+                                        Rajapalayam</span>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">"The gift boxes from Q
+                                Crackers are perfect for our family
+                                celebrations in Rajapalayam. Everyone loved
+                                the variety - sparklers, chakkars, and
+                                rockets!"</p>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 5 - Madurai -->
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar"
+                                    style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">A</div>
+                                <div class="review-info">
+                                    <strong>Arul M</strong>
+                                    <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
+                                        Madurai</span>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">"Ordered from Madurai and
+                                received the crackers within 24 hours! The
+                                sound crackers were amazing - perfect for
+                                our Meenakshi Temple festival celebrations."
+                            </p>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    September 2025</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 6 - Kovilpatti -->
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar"
+                                    style="background: linear-gradient(135deg, #f39c12, #e67e22);">K</div>
+                                <div class="review-info">
+                                    <strong>Kavitha L</strong>
+                                    <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
+                                        Kovilpatti</span>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">"The flower pots from Q
+                                Crackers are stunning! I used them for my
+                                daughter's engagement in Kovilpatti and
+                                everyone was impressed by the colourful
+                                fountain
+                                display."</p>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 7 - Dindigul -->
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar"
+                                    style="background: linear-gradient(135deg, #1abc9c, #16a085);">S</div>
+                                <div class="review-info">
+                                    <strong>Senthil P</strong>
+                                    <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
+                                        Dindigul</span>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">"Being a wholesale buyer
+                                from Dindigul, I trust Q Crackers for bulk
+                                orders. Their rockets are in high demand
+                                during every festival season."</p>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    August 2025</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 8 - Tuticorin -->
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar"
+                                    style="background: linear-gradient(135deg, #e74c3c, #c0392b);">M</div>
+                                <div class="review-info">
+                                    <strong>Meena R</strong>
+                                    <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
+                                        Tuticorin</span>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">"The party crackers combo
+                                was a huge hit at our beach celebration in
+                                Tuticorin. Fast delivery and amazing quality
+                                - highly recommended!"</p>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    September 2025</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 9 - Theni -->
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar"
+                                    style="background: linear-gradient(135deg, #2ecc71, #27ae60);">G</div>
+                                <div class="review-info">
+                                    <strong>Ganesh N</strong>
+                                    <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
+                                        Theni</span>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">"The quality of crackers
+                                from Q Crackers is unmatched. As a regular
+                                customer from Theni, I always recommend them
+                                to my friends and family."</p>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 10 - Ramanathapuram -->
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar"
+                                    style="background: linear-gradient(135deg, #3498db, #2980b9);">D</div>
+                                <div class="review-info">
+                                    <strong>Devi P</strong>
+                                    <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
+                                        Ramanathapuram</span>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">"The aerial shots and
+                                rockets from Q Crackers lit up our village
+                                festival in Ramanathapuram. Thank you for
+                                making our celebration memorable!"</p>
+                            <div class="review-meta">
+                                <span class="review-badge"><i class="fas fa-check-circle"></i>
+                                    Verified Purchase</span>
+                                <span class="review-date"><i class="far fa-calendar-alt"></i>
+                                    October 2025</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <!-- Main Footer Grid -->
+            <div class="footer-grid">
+
+                <!-- Brand Column -->
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="footer-logo-mark">Q</span>
+                        <span class="footer-logo-text">
+                            <span>Crackers</span></span>
+                    </a>
+                    <p class="footer-desc">
+                        Premium Sivakasi fireworks, delivered safely across
+                        Tamil Nadu.
+                        Celebrate bigger, celebrate brighter.
+                    </p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/profile.php?id=100092128860200" class="social-icon facebook"
+                            aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/q_crackers_official/" class="social-icon instagram"
+                            aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@qcrackersofficial" class="social-icon youtube"
+                            aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://wa.me/919655586461" class="social-icon whatsapp" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links Column -->
+                <div class="footer-links">
+                    <h4><i class="fas fa-compass"></i> Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-fire"></i>
+                                Home</a></li>
+                        <li><a href="products.html"><i class="fas fa-fire"></i>
+                                Products</a></li>
+
+                        <li><a href="about.html"><i class="fas fa-info-circle"></i> About
+                                Us</a></li>
+                        <li><a href="faq.html"><i class="fas fa-question-circle"></i>
+                                FAQ</a></li>
+                        <li><a href="contact.html"><i class="fas fa-images"></i>
+                                Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support Column -->
+                <div class="footer-links">
+                    <h4><i class="fas fa-headset"></i> Support</h4>
+                    <ul>
+                        <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact
+                                Us</a></li>
+                        <li><a href="#"><i class="fas fa-truck"></i> Track
+                                Order</a></li>
+                        <li><a href="#"><i class="fas fa-box"></i> Shipping
+                                Info</a></li>
+                        <li><a href="#"><i class="fas fa-shield-alt"></i>
+                                Safety Guidelines</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Column -->
+                <div class="footer-contact">
+                    <h4><i class="fas fa-phone-alt"></i> Get in Touch</h4>
+                    <ul class="contact-list">
+                        <li>
+                            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                            <div class="contact-detail">
+                                <span class="contact-label">Call Us</span>
+                                <a href="tel:+919655586461">+91 96555
+                                    86461</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="contact-detail">
+                                <span class="contact-label">Email Us</span>
+                                <a href="mailto:qcrackerss@gmail.com">
+                                    <i class="fas fa-envelope"></i>
+                                    qcrackerss@gmail.com
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="contact-detail">
+                                <span class="contact-label">Visit Us</span>
+                                <span>Sivakasi, Tamil Nadu</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                            <div class="contact-detail">
+                                <span class="contact-label">Working
+                                    Hours</span>
+                                <span>Mon - Sat, 9 AM - 8 PM</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <span>© 2026 <strong>Q Crackers</strong>. All rights
+                        reserved.</span>
+                </div>
+                <div class="footer-bottom-right">
+                    <span><i class="fas fa-shield-alt" style="color:var(--yellow);"></i> 100% Safe
+                        &amp;
+                        Trusted</span>
+                    <span><i class="fas fa-truck-fast" style="color:var(--yellow);"></i> Fast
+                        Delivery</span>
+                    <span><i class="fas fa-star" style="color:var(--yellow);"></i> Premium
+                        Quality</span>
+                </div>
+            </div>
+
+            <!-- Safety Disclaimer Bar -->
+            <div class="footer-disclaimer">
+                <span>Developed by Rohil Technologies</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SOCIAL FLOATING ICONS ===== -->
+    <div class="social-float">
+        <a href="tel:+919655586461" class="sf-phone" id="sfPhone"><i class="fas fa-phone"></i></a>
+        <a href="https://wa.me/919655586461" class="sf-whatsapp" id="sfWhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/q_crackers_official/" class="sf-instagram" id="sfInstagram"><i
+                class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=100092128860200" class="sf-facebook" id="sfFacebook"><i
+                class="fab fa-facebook-f"></i></a>
+    </div>
+
+    <!-- ===== BACK TO TOP ===== -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- ============================================================ -->
+    <!-- ALL JAVASCRIPT - INTERNAL (NO EXTERNAL FILES NEEDED)          -->
+    <!-- ============================================================ -->
+    <script>
+
+
+        // ============================================================
+        // 1. REVEAL ON SCROLL
+        // ============================================================
+        (function () {
+            try {
+                var revealEls = document.querySelectorAll('.reveal');
+                if (!revealEls.length) return;
+
+                var observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('in-view');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                revealEls.forEach(function (el) { observer.observe(el); });
+
+                setTimeout(function () {
+                    revealEls.forEach(function (el) { el.classList.add('in-view'); });
+                }, 1500);
+            } catch (e) {
+                document.querySelectorAll('.reveal').forEach(function (el) {
+                    el.classList.add('in-view');
+                });
+            }
+        })();
+
+
+        // ============================================================
+        // 2. ALL CATEGORIES DROPDOWN
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function () {
+            var allCatBtn = document.getElementById('all-cat-btn');
+            var allCatMenu = document.getElementById('all-cat-menu');
+
+            if (allCatBtn && allCatMenu) {
+                allCatBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    allCatMenu.classList.toggle('open');
+                    allCatBtn.classList.toggle('active');
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (!allCatBtn.contains(e.target) && !allCatMenu.contains(e.target)) {
+                        allCatMenu.classList.remove('open');
+                        allCatBtn.classList.remove('active');
+                    }
+                });
+
+                allCatMenu.querySelectorAll('a').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        allCatMenu.classList.remove('open');
+                        allCatBtn.classList.remove('active');
+                    });
+                });
+            }
+        });
+
+
+        // ============================================================
+        // 3. HAMBURGER MENU TOGGLE
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function () {
+            var hamburger = document.getElementById('hamburgerBtn');
+            var mainNav = document.getElementById('mainNav');
+
+            if (hamburger && mainNav) {
+                hamburger.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    hamburger.classList.toggle('active');
+                    mainNav.classList.toggle('active');
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (!hamburger.contains(e.target) && !mainNav.contains(e.target)) {
+                        hamburger.classList.remove('active');
+                        mainNav.classList.remove('active');
+                    }
+                });
+            }
+        });
+
+
+        // ============================================================
+        // 4. HERO CAROUSEL
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function () {
+            var track = document.getElementById('carousel-track');
+            var slides = track.querySelectorAll('.carousel-slide');
+            var dots = document.querySelectorAll('#carousel-dots .dot');
+            var prevBtn = document.getElementById('carousel-prev');
+            var nextBtn = document.getElementById('carousel-next');
+            var currentIndex = 0;
+            var totalSlides = slides.length;
+            var autoplayInterval = null;
+            var isTransitioning = false;
+
+            function goToSlide(index) {
+                if (isTransitioning) return;
+                isTransitioning = true;
+
+                if (index < 0) index = totalSlides - 1;
+                if (index >= totalSlides) index = 0;
+                currentIndex = index;
+
+                track.style.transition = 'transform 0.7s cubic-bezier(0.65, 0, 0.35, 1)';
+                track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+
+                dots.forEach(function (dot, i) {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+
+                setTimeout(function () {
+                    isTransitioning = false;
+                }, 800);
+            }
+
+            function nextSlide() { goToSlide(currentIndex + 1); }
+
+            function prevSlide() { goToSlide(currentIndex - 1); }
+
+            function startAutoplay() {
+                if (autoplayInterval) clearInterval(autoplayInterval);
+                autoplayInterval = setInterval(nextSlide, 5000);
+            }
+
+            function stopAutoplay() {
+                if (autoplayInterval) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = null;
+                }
+            }
+
+            if (prevBtn) prevBtn.addEventListener('click', function () {
+                stopAutoplay();
+                prevSlide();
+                startAutoplay();
+            });
+            if (nextBtn) nextBtn.addEventListener('click', function () {
+                stopAutoplay();
+                nextSlide();
+                startAutoplay();
+            });
+
+            dots.forEach(function (dot, index) {
+                dot.addEventListener('click', function () {
+                    stopAutoplay();
+                    goToSlide(index);
+                    startAutoplay();
+                });
+            });
+
+            var carousel = document.getElementById('hero-carousel');
+            if (carousel) {
+                carousel.addEventListener('mouseenter', stopAutoplay);
+                carousel.addEventListener('mouseleave', startAutoplay);
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'ArrowLeft') {
+                    stopAutoplay();
+                    prevSlide();
+                    startAutoplay();
+                }
+                if (e.key === 'ArrowRight') {
+                    stopAutoplay();
+                    nextSlide();
+                    startAutoplay();
+                }
+            });
+
+            // Touch support
+            var touchStartX = 0;
+            var touchEndX = 0;
+            if (carousel) {
+                carousel.addEventListener('touchstart', function (e) {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+                carousel.addEventListener('touchend', function (e) {
+                    touchEndX = e.changedTouches[0].screenX;
+                    var diff = touchStartX - touchEndX;
+                    if (Math.abs(diff) > 50) {
+                        stopAutoplay();
+                        if (diff > 0) { nextSlide(); } else { prevSlide(); }
+                        startAutoplay();
+                    }
+                }, { passive: true });
+            }
+
+            // Initialize
+            goToSlide(0);
+            startAutoplay();
+
+            // Expose for debugging
+            window.heroCarousel = { goToSlide: goToSlide, nextSlide: nextSlide, prevSlide: prevSlide };
+        });
+
+        // ============================================================
+        // 5. TESTIMONIAL CAROUSEL
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function () {
+            var track = document.getElementById('testimonialTrack');
+            var slides = track.querySelectorAll('.testimonial-slide');
+            var dotsContainer = document.getElementById('testDots');
+            var prevBtn = document.getElementById('testPrev');
+            var nextBtn = document.getElementById('testNext');
+            var currentIndex = 0;
+            var totalSlides = slides.length;
+            var autoplayInterval = null;
+            var isTransitioning = false;
+
+            // Create dots
+            if (dotsContainer) {
+                dotsContainer.innerHTML = '';
+                for (var i = 0; i < totalSlides; i++) {
+                    var dot = document.createElement('span');
+                    dot.className = 'dot' + (i === 0 ? ' active' : '');
+                    dot.dataset.index = i;
+                    dot.addEventListener('click', function () {
+                        var index = parseInt(this.dataset.index);
+                        stopAutoplayTest();
+                        goToSlideTest(index);
+                        startAutoplayTest();
+                    });
+                    dotsContainer.appendChild(dot);
+                }
+            }
+            var testDots = dotsContainer ? dotsContainer.querySelectorAll('.dot') : [];
+
+            function goToSlideTest(index) {
+                if (isTransitioning) return;
+                isTransitioning = true;
+                if (index < 0) index = totalSlides - 1;
+                if (index >= totalSlides) index = 0;
+                currentIndex = index;
+
+                track.style.transition = 'transform 0.6s cubic-bezier(0.65, 0, 0.35, 1)';
+                track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+
+                testDots.forEach(function (dot, i) {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+
+                setTimeout(function () { isTransitioning = false; }, 700);
+            }
+
+            function nextSlideTest() { goToSlideTest(currentIndex + 1); }
+
+            function prevSlideTest() { goToSlideTest(currentIndex - 1); }
+
+            function startAutoplayTest() {
+                if (autoplayInterval) clearInterval(autoplayInterval);
+                autoplayInterval = setInterval(nextSlideTest, 6000);
+            }
+
+            function stopAutoplayTest() {
+                if (autoplayInterval) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = null;
+                }
+            }
+
+            if (prevBtn) prevBtn.addEventListener('click', function () {
+                stopAutoplayTest();
+                prevSlideTest();
+                startAutoplayTest();
+            });
+            if (nextBtn) nextBtn.addEventListener('click', function () {
+                stopAutoplayTest();
+                nextSlideTest();
+                startAutoplayTest();
+            });
+
+            var testimonialSection = document.querySelector('.testimonials-section');
+            if (testimonialSection) {
+                testimonialSection.addEventListener('mouseenter', stopAutoplayTest);
+                testimonialSection.addEventListener('mouseleave', startAutoplayTest);
+            }
+
+            // Initialize
+            goToSlideTest(0);
+            startAutoplayTest();
+        });
+
+
+        // ============================================================
+        // 6. REVIEWS MODAL
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function () {
+            var modal = document.getElementById('reviewsModal');
+            var openBtn = document.getElementById('openReviewsModalBtn');
+            var closeBtn = document.getElementById('reviewsModalClose');
+
+            function openModal() {
+                if (modal) {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closeModal() {
+                if (modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            if (openBtn) {
+                openBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    openModal();
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeModal);
+            }
+
+            if (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        closeModal();
+                    }
+                });
+            }
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        });
+
+
+        // ============================================================
+        // 7. BACK TO TOP BUTTON
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function () {
+            var backToTopBtn = document.getElementById('back-to-top');
+
+            if (backToTopBtn) {
+                window.addEventListener('scroll', function () {
+                    if (window.scrollY > 300) {
+                        backToTopBtn.classList.add('show');
+                    } else {
+                        backToTopBtn.classList.remove('show');
+                    }
+                });
+
+                backToTopBtn.addEventListener('click', function () {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+        });
+
+
+        // ============================================================
+        // 8. STATS COUNT-UP ANIMATION
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function () {
+            var statNumbers = document.querySelectorAll('.stat-number');
+            if (!statNumbers.length) return;
+
+            var hasAnimated = false;
+
+            function animateNumber(el) {
+                var target = parseInt(el.dataset.target, 10) || 0;
+                var suffix = el.dataset.suffix || '';
+                var duration = 1600;
+                var startTime = null;
+
+                function step(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    var progress = Math.min((timestamp - startTime) / duration, 1);
+                    var eased = 1 - Math.pow(1 - progress, 3); // ease-out
+                    var current = Math.floor(eased * target);
+                    el.textContent = current.toLocaleString('en-IN') + suffix;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        el.textContent = target.toLocaleString('en-IN') + suffix;
+                    }
+                }
+                requestAnimationFrame(step);
+            }
+
+            var statsSection = document.querySelector('.strip-stats');
+            if (statsSection && 'IntersectionObserver' in window) {
+                var statsObserver = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting && !hasAnimated) {
+                            hasAnimated = true;
+                            statNumbers.forEach(animateNumber);
+                            statsObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.4 });
+                statsObserver.observe(statsSection);
+            } else {
+                statNumbers.forEach(animateNumber);
+            }
+        });
+
+
+        // ============================================================
+        // 9. CART MODAL FUNCTIONALITY
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize cart badge
+            if (typeof CartManager !== 'undefined') {
+                CartManager.updateBadge();
+            }
+
+            // ===== OPEN CART MODAL =====
+            var openCartBtn = document.getElementById('open-cart-btn');
+            if (openCartBtn) {
+                openCartBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var modal = document.getElementById('cart-modal');
+                    if (modal) {
+                        modal.classList.add('active');
+                        updateCartModal();
+                    } else {
+                        // If cart modal doesn't exist on this page, go to products
+                        window.location.href = 'products.html';
+                    }
+                });
+            }
+
+            // ===== CLOSE CART MODAL =====
+            var closeCartBtn = document.getElementById('cart-modal-close');
+            if (closeCartBtn) {
+                closeCartBtn.addEventListener('click', function () {
+                    var modal = document.getElementById('cart-modal');
+                    if (modal) modal.classList.remove('active');
+                });
+            }
+
+            // ===== CONTINUE SHOPPING =====
+            var continueBtn = document.getElementById('cart-continue-btn');
+            if (continueBtn) {
+                continueBtn.addEventListener('click', function () {
+                    var modal = document.getElementById('cart-modal');
+                    if (modal) modal.classList.remove('active');
+                });
+            }
+
+            // ===== CLOSE ON OVERLAY CLICK =====
+            var modal = document.getElementById('cart-modal');
+            if (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            }
+
+            // ===== ESC KEY TO CLOSE =====
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    var modal = document.getElementById('cart-modal');
+                    if (modal && modal.classList.contains('active')) {
+                        modal.classList.remove('active');
+                    }
+                }
+            });
+
+            // ===== UPDATE CART MODAL =====
+            function updateCartModal() {
+                if (typeof CartManager === 'undefined') return;
+
+                var items = CartManager.getCartItems();
+                var totalItems = CartManager.getTotalItems();
+                var container = document.getElementById('cart-modal-tbody');
+                var emptyMsg = document.getElementById('cart-empty-msg');
+                var table = document.getElementById('cart-modal-table');
+                var countEl = document.getElementById('cart-modal-count');
+                var totalProductsEl = document.getElementById('cart-modal-total-products');
+                var totalEl = document.getElementById('cart-modal-overall-total');
+                var warningEl = document.getElementById('cart-min-order-warning');
+                var warningTotalEl = document.getElementById('cart-warning-total');
+
+                // Update count
+                if (countEl) countEl.textContent = totalItems;
+                if (totalProductsEl) totalProductsEl.textContent = totalItems;
+
+                if (items.length === 0) {
+                    if (emptyMsg) emptyMsg.style.display = 'block';
+                    if (table) table.style.display = 'none';
+                    if (warningEl) warningEl.style.display = 'none';
+                    if (totalEl) totalEl.textContent = '₹0';
+                    return;
+                }
+
+                if (emptyMsg) emptyMsg.style.display = 'none';
+                if (table) table.style.display = 'table';
+
+                // Build items list
+                var html = '';
+                var totalAmount = 0;
+                items.forEach(function (item) {
+                    // Get price from data-price attribute or use default
+                    var price = 100; // Default price
+                    // Try to find product price from page
+                    var productRow = document.querySelector('.product-table tbody tr[data-name="' + item.name + '"]');
+                    if (productRow) {
+                        var priceTag = productRow.querySelector('.price-tag');
+                        if (priceTag) {
+                            var match = priceTag.textContent.trim().match(/₹(\d+)/);
+                            if (match) price = parseInt(match[1], 10);
+                        }
+                    }
+
+                    var amount = price * item.quantity;
+                    totalAmount += amount;
+
+                    html += '<tr>';
+                    html += '<td>' + item.name + '</td>';
+                    html += '<td>' + item.quantity + '</td>';
+                    html += '<td>₹' + price.toLocaleString() + '</td>';
+                    html += '<td>₹' + amount.toLocaleString() + '</td>';
+                    html += '<td><button class="cart-modal-remove" data-name="' + item.name + '">Remove</button></td>';
+                    html += '</tr>';
+                });
+
+                if (container) container.innerHTML = html;
+
+                // Update total
+                if (totalEl) totalEl.textContent = '₹' + totalAmount.toLocaleString();
+
+                // Check minimum order
+                var minOrder = 2500;
+                if (warningEl) {
+                    if (totalAmount > 0 && totalAmount < minOrder) {
+                        warningEl.style.display = 'flex';
+                        if (warningTotalEl) warningTotalEl.textContent = '₹' + totalAmount.toLocaleString();
+                    } else {
+                        warningEl.style.display = 'none';
+                    }
+                }
+
+                // Add remove button listeners
+                container.querySelectorAll('.cart-modal-remove').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        var name = this.dataset.name;
+                        if (typeof CartManager !== 'undefined') {
+                            CartManager.removeItem(name);
+                            CartManager.updateBadge();
+                            updateCartModal();
+                        }
+                    });
+                });
+            }
+
+            // ===== PROCEED TO CHECKOUT =====
+            var checkoutBtn = document.getElementById('cart-checkout-btn');
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener('click', function () {
+                    var totalItems = typeof CartManager !== 'undefined' ? CartManager.getTotalItems() : 0;
+                    if (totalItems === 0) {
+                        alert('Your cart is empty!');
+                        return;
+                    }
+                    // Redirect to products page to complete order
+                    window.location.href = 'products.html';
+                });
+            }
+
+            console.log('✅ Q Crackers - Cart functionality loaded!');
+            console.log('📦 Items in cart: ' + (typeof CartManager !== 'undefined' ? CartManager.getTotalItems() : 0));
+        });
+    </script>
+    <script src="cart.js"></script>
+
+    <script type="importmap">
+{
+  "imports": {
+    "firebase/app":"https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js",
+    "firebase/firestore":"https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js"
+  }
+}
+</script>
+
+    <script type="module">
+        import { initializeApp } from "firebase/app";
+        import { getFirestore, doc, getDoc } from "firebase/firestore";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
+            authDomain: "qcrackers.firebaseapp.com",
+            projectId: "qcrackers",
+            storageBucket: "qcrackers.firebasestorage.app",
+            messagingSenderId: "491899224672",
+            appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const priceListBtn = document.getElementById("priceListBtn");
+
+        if (priceListBtn) {
+            priceListBtn.addEventListener("click", async (e) => {
+                e.preventDefault();
+
+                try {
+                    const snap = await getDoc(doc(db, "storeSettings", "settings"));
+
+                    if (snap.exists() && snap.data().pdfUrl) {
+                        window.open(snap.data().pdfUrl, "_blank");
+                    } else {
+                        alert("Price List not available.");
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("Failed to open Price List.");
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // ===== IMAGE ZOOM MODAL =====
+        (function () {
+            var modal = document.getElementById('zoomModal');
+            var img = document.getElementById('zoomImg');
+            var caption = document.getElementById('zoomCaption');
+            var closeBtn = document.getElementById('zoomClose');
+            var zoomInBtn = document.getElementById('zoomInBtn');
+            var zoomOutBtn = document.getElementById('zoomOutBtn');
+            var zoomResetBtn = document.getElementById('zoomResetBtn');
+            var scale = 1;
+
+            window.openZoom = function (src, name) {
+                img.src = src;
+                caption.textContent = name || '';
+                scale = 1;
+                img.style.transform = 'scale(1)';
+                modal.classList.add('active');
+            };
+
+            function closeZoom() {
+                modal.classList.remove('active');
+            }
+
+            if (closeBtn) closeBtn.addEventListener('click', closeZoom);
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeZoom();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeZoom();
+            });
+
+            if (zoomInBtn) zoomInBtn.addEventListener('click', function () {
+                scale = Math.min(scale + 0.25, 3);
+                img.style.transform = 'scale(' + scale + ')';
+            });
+            if (zoomOutBtn) zoomOutBtn.addEventListener('click', function () {
+                scale = Math.max(scale - 0.25, 0.5);
+                img.style.transform = 'scale(' + scale + ')';
+            });
+            if (zoomResetBtn) zoomResetBtn.addEventListener('click', function () {
+                scale = 1;
+                img.style.transform = 'scale(1)';
+            });
+
+            // mouse wheel zoom
+            img.addEventListener('wheel', function (e) {
+                e.preventDefault();
+                scale += e.deltaY < 0 ? 0.15 : -0.15;
+                scale = Math.max(0.5, Math.min(scale, 3));
+                img.style.transform = 'scale(' + scale + ')';
+            }, { passive: false });
+        })();
+
+        // ===== ADD TO CART BUTTONS =====
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.add-to-cart-btn').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var name = this.dataset.name;
+                    var price = parseFloat(this.dataset.price) || 0;
+
+                    if (typeof CartManager !== 'undefined' && CartManager.addItem) {
+                        CartManager.addItem(name, price, 1); CartManager.updateBadge();
+                    } else {
+                        console.warn('CartManager not found — check cart.js');
+                    }
+
+                    // visual feedback
+                    var original = this.innerHTML;
+                    this.classList.add('added');
+                    this.innerHTML = '<i class="fas fa-check"></i> Added';
+                    var self = this;
+                    setTimeout(function () {
+                        self.classList.remove('added');
+                        self.innerHTML = original;
+                    }, 1200);
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
